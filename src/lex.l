@@ -25,16 +25,15 @@ fragmento           {hs}+{dominio}
 protocolo           "http"|"https"|"ftp"|"ftps"
 enlace              {protocolo}{dp}{sl}{sl}{dominio}{dominio}*{puerto}?{ruta}*{fragmento}*
 
-men                 [\<]
-may                 [\>]
-inter               [?]
-rss                 "rss"
-version             "version="
-encoding            "encoding="UTF-8""
+may                 ">"
+rss                 "<rss"
+version             (version{espacio}*={espacio}*{vers_num})
+encoding            (encoding{espacio}*={espacio}*{qu}{cadena}{qu})
 xml                 "<?xml"
+cxml				"\?>"
 
-defXML				{xml}{espacio}+{version}{vers_num}{espacio}+{encoding}{espacio}*{inter}{may}
-defRSS				{men}{rss}{espacio}+{version}{vers_num}{may}
+defXML				({xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{cxml})
+defRSS				({rss}{espacio}*{version}{espacio}*{may})
 
 %%
 "quit"                  {quit(); return 0;}
@@ -61,12 +60,16 @@ defRSS				{men}{rss}{espacio}+{version}{vers_num}{may}
 "<image>"			    {printf("-Apertura de imagen: %s\n", yytext);}
 "</image>"			    {printf("-Clausura de imagen: %s\n", yytext);}
 "</rss>"			    {printf("-Clausura de documento RSS: %s\n", yytext);}
+{version}				{printf("-Version: %s\n", yytext);}
+{xml}					{printf("-Apertura XML: %s\n", yytext);}
+{cxml}					{printf("-Clausura XML: %s\n", yytext);}
+{rss}					{printf("-Apertura RSS: %s\n", yytext);}
 {defRSS}		        {printf("-Apertura de documento RSS: %s\n", yytext);}
 {defXML}			    {printf("-Definicion XML: %s\n", yytext);}
 {enlace}			    {printf("-Enlace: %s\n", yytext);}
 ({cadena}*|{numero}*)   {printf("-Cadena de caracteres: %s\n", yytext);}
 {espacio}               {;}
-.					    {printf("-Sentencia no reconocido: %s\n", yytext);}
+.					    {printf("-Sentencia no reconocida: %s\n", yytext);}
 
 %%
 
