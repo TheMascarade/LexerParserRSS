@@ -6,10 +6,10 @@
 %option yylineno
 
 numero 				[0-9]+
-letra               [À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°]+
-vers_num 			    {qu}{numero}(\.{numero})*{qu}
+letra               [À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°]
+vers_num 			{qu}{numero}(\.{numero})*{qu}
 qu                  ["]
-espacio				[ \t,\n,\r]
+espacio				[ \t\n\r]
 cadena              {espacio}*{letra}{letra}*{espacio}*
 
 caracter_url        [a-zA-Z0-9]|[-_.?&%=]
