@@ -6,7 +6,7 @@
 %option yylineno
 
 numero 				[0-9]+
-letra               [À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°]
+letra               [À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\"]
 vers_num 			{qu}{numero}(\.{numero})*{qu}
 qu                  ["]
 espacio				[ \t\n\r]
@@ -25,8 +25,16 @@ fragmento           {hs}+{dominio}
 protocolo           "http"|"https"|"ftp"|"ftps"
 enlace              {protocolo}{dp}{sl}{sl}{dominio}{dominio}*{puerto}?{ruta}*{fragmento}*
 
-defXML				<?xml{espacio}version{espacio}={espacio}"{version}"{espacio}(encoding{espacio}={espacio}"{cadena}")?{espacio}?>
-defRSS				<rss{espacio}version{espacio}={espacio}"{version}"{espacio}>
+men                 [\<]
+may                 [\>]
+inter               [?]
+rss                 "rss"
+version             "version="
+encoding            "encoding="UTF-8""
+xml                 "<?xml"
+
+defXML				{xml}{espacio}+{version}{vers_num}{espacio}+{encoding}{espacio}*{inter}{may}
+defRSS				{men}{rss}{espacio}+{version}{vers_num}{may}
 
 %%
 "quit"                  {quit(); return 0;}
@@ -46,17 +54,15 @@ defRSS				<rss{espacio}version{espacio}={espacio}"{version}"{espacio}>
 "</link>"			    {printf("-Clausura de link: %s\n", yytext);}
 "<url>"				    {printf("-Apertura de url: %s\n", yytext);}
 "</url>"			    {printf("-Clausura de url: %s\n", yytext);}
-
-{vers_num}			    {printf("-Version: %s\n", yytext);}
-{defRSS}			    {printf("-Apertura de documento rss: %s\n", yytext);}
-{defXML}			    {printf("-Definicion XML: %s\n", yytext);}
-"</rss>"			    {printf("-Clausura de documento RSS: %s\n", yytext);}
 "<channel>"			    {printf("-Apertura de canal: %s\n", yytext);}
 "</channel>"		    {printf("-Clausura de canal: %s\n", yytext);}
 "<item>"			    {printf("-Apertura de item: %s\n", yytext);}
 "</item>"			    {printf("-Clausura de item: %s\n", yytext);}
 "<image>"			    {printf("-Apertura de imagen: %s\n", yytext);}
 "</image>"			    {printf("-Clausura de imagen: %s\n", yytext);}
+"</rss>"			    {printf("-Clausura de documento RSS: %s\n", yytext);}
+{defRSS}		        {printf("-Apertura de documento RSS: %s\n", yytext);}
+{defXML}			    {printf("-Definicion XML: %s\n", yytext);}
 {enlace}			    {printf("-Enlace: %s\n", yytext);}
 ({cadena}*|{numero}*)   {printf("-Cadena de caracteres: %s\n", yytext);}
 {espacio}               {;}
