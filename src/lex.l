@@ -9,7 +9,7 @@ numero 				[0-9]+
 letra               [À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\"]
 vers_num 			{qu}{numero}(\.{numero})*{qu}
 qu                  ["]
-espacio				[ \t\n\r]
+espacio				[ ]
 cadena              {espacio}*{letra}{letra}*{espacio}*
 
 caracter_url        [a-zA-Z0-9]|[-_.?&%=]
@@ -69,6 +69,8 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 {enlace}			    {printf("-Enlace: %s\n", yytext);}
 ({cadena}*|{numero}*)   {printf("-Cadena de caracteres: %s\n", yytext);}
 {espacio}               {;}
+"\n"
+"\t"
 .					    {printf("-Sentencia no reconocida: %s\n", yytext);}
 
 %%
