@@ -73,6 +73,7 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 "\t"
 .					    {printf("-Sentencia no reconocida: %s\n", yytext);}
 
+
 %%
 
 // Abre archivo o permite el ingreso manual
