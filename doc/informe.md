@@ -60,6 +60,12 @@ La segunda etapa consistirá en la conformación de un lexer que deberá ser cap
 
 ## Gramática
 
+En esta primer etapa fué crítico, como primera instancia, evaluar la complejidad que se requería de las producciones gramaticales para establecer un conjunto de reglas coherentes y fáciles de entender; éstas deben permitir generar sólamente contenido válido en formato RSS a la vez que evitar complejidades que podrían afectar su interpretación y, potencialmente, el desempeño del parser.
+
+![Jerarquía de lenguajes - Chomsky](https://i.imgur.com/F7iW1Oe.png "Jerarquía de lenguajes - Chomsky")
+
+Analizando el formato característico de los documentos RSS y teniendo en cuenta la jerarquía de lenguajes de Chomsky se optó por una gramática de tipo 2, libre de contexto, para la formulación de las producciones.
+
 ### Tipos de datos y derivados
 
 #### Números enteros
