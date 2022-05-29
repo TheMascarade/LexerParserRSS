@@ -143,7 +143,7 @@ La segunda etapa consistirá en la conformación de un lexer que deberá ser cap
 <ITEMS> --> <ITEM><ITEMS> | <ITEM>
 ```
 
-#### Imagen
+#### Imágen
 
 ```
 <IMAGEN-OBLIGATORIO> --> <TITULO><URL><LINK> | <TITULO><LINK><URL> | <LINK><TITULO><URL> | <LINK><URL><TITULO> | <URL><TITULO><LINK> | <URL><LINK<TITULO>
