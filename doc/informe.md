@@ -16,7 +16,7 @@
 
 ## Índice
 
-1. [Introducción](#introduccion)
+1. [Introducción](#introducción)
 
 2. [Gramática](#gramatica)
 
