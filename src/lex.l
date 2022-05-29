@@ -9,7 +9,7 @@ numero 				[0-9]+
 letra               [À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\"]
 vers_num 			{qu}{numero}(\.{numero})*{qu}
 qu                  ["]
-espacio				[ ]
+espacio				[" "]
 cadena              {espacio}*{letra}{letra}*{espacio}*
 
 caracter_url        [a-zA-Z0-9]|[-_.?&%=]
@@ -18,12 +18,12 @@ texto_url           {caracter_url}{caracter_url}*
 dp                  [:]
 sl                  [/]
 hs                  [#]
-dominio             {texto_url}{texto_url}*+{sl}?
-puerto              {dp}+{numero}
-ruta                {sl}?+{dominio}?
-fragmento           {hs}+{dominio}
-protocolo           "http"|"https"|"ftp"|"ftps"
-enlace              {protocolo}{dp}{sl}{sl}{dominio}{dominio}*{puerto}?{ruta}*{fragmento}*
+dominio             {texto_url}(\.{texto_url})+
+puerto              {dp}{numero}
+ruta                {sl}({texto_url}{sl})*
+fragmento           {hs}?{texto_url}
+protocolo           (http|https|ftp|ftps)
+enlace              {protocolo}{dp}{sl}{sl}{dominio}{puerto}?({ruta}{fragmento}?)?
 
 may                 ">"
 rss                 "<rss"
@@ -69,11 +69,9 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 {enlace}			    {printf("-Enlace: %s\n", yytext);}
 ({cadena}*|{numero}*)   {printf("-Cadena de caracteres: %s\n", yytext);}
 {espacio}               {;}
-"\n"
-"\t"
+"\n"                    {;}
+"\t"                    {;}
 .					    {printf("-Sentencia no reconocida: %s\n", yytext);}
-
-
 %%
 
 // Abre archivo o permite el ingreso manual
