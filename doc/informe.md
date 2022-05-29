@@ -52,13 +52,11 @@ El trabajo documentado a continuación consiste en el desarrollo de un analizado
 
 RSS es un formato de sindicación de contenido web derivado de XML, su propósito es facilitar la distribución de contendido actualizado de forma frecuente mediante un sistema de suscripciones y sin la necesidad de acceder al sitio web o blog en sí mismo.
 
-Se trabajará a lo largo de tres etapas principales, la primera de ellas utilizando conocimientos de teoría de lenguajes y gramáticas formales para formular un conjunto de producciones, estas comprenderán la gramática libre de contexto a modo de una descripción formal de RSS.
+Se trabajará a lo largo de tres etapas principales:
 
-La segunda etapa consistirá en la conformación de un lexer que deberá ser capaz de identificar cada uno de los tokens dentro del documento, este conformará la primer etapa de detección de errores en el contenido, ya sean lexicos o sintácticos.
+### 1. Desarrollo de la gramática
 
-<div style="page-break-after: always"></div>
-
-## Gramática
+Se utilizaron conocimientos de teoría de lenguajes y gramáticas formales para formular un conjunto de producciones, estas comprenderán la gramática a modo de una descripción formal de RSS.
 
 En esta primer etapa fué crítico, como primera instancia, evaluar la complejidad que se requería de las producciones gramaticales para establecer un conjunto de reglas coherentes y fáciles de entender; éstas deben permitir generar sólamente contenido válido en formato RSS a la vez que evitar complejidades que podrían afectar su interpretación y, potencialmente, el desempeño del parser.
 
@@ -66,48 +64,55 @@ En esta primer etapa fué crítico, como primera instancia, evaluar la complejid
 
 Analizando el formato característico de los documentos RSS y teniendo en cuenta la jerarquía de lenguajes de Chomsky se optó por una gramática de tipo 2, libre de contexto, para la formulación de las producciones.
 
+### 2. Desarrollo del lexer
+
+La segunda etapa consistirá en la conformación de un lexer que deberá ser capaz de identificar cada uno de los tokens dentro del documento, este conformará la primer etapa de detección de errores en el contenido, ya sean lexicos o sintácticos.
+
+<div style="page-break-after: always"></div>
+
+## Gramática
+
 ### Tipos de datos y derivados
 
 #### Números enteros
 
 ```
-<NUM> --> 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0
-
-<VERSION> --> <NUM> | <NUM>.<VERSION>
-<ALTO> --> <height><NUM></height>
-<ANCHO> --> <width><NUM></width>
+{NUM}		--> 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0
+{VERSION}	--> {NUM} | {NUM}.{VERSION}
+{ALTO}		--> <height>{NUM}</height>
+{ANCHO}		--> <width>{NUM}</width>
 ```
 
 #### Cadena de caracteres
 
 ```
-<CAD> -->  \b | \t | \n | a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | , | . | ¿ | ? | ¡ | ! | / | \ | $ | ` | ´ | " | # | % | @ | & | - | _
+{CAD}		-->  \b | \t | \n | a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | , | . | ¿ | ? | ¡ | ! | / | \ | $ | ` | ´ | " | # | % | @ | & | - | _
 
-<CAD> --> A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
+{CAD}		--> A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
 
-<TITULO> --> <title><CAD></title>
-<DESC> --> <description><CAD><description>
-<CATEGORÍA> --> <category><CAD></category>
-<DERECHOS> --> <copyright><CAD></copyright>
+{TITULO}	--> <title>{CAD}</title>
+{DESC}		--> <description>{CAD}<description>
+{CATEGORÍA}	--> <category>{CAD}</category>
+{DERECHOS}	--> <copyright>{CAD}</copyright>
 ```
 
 #### URL
 
 ```
-<PROT> --> http | https | ftp | ftps
+{PROT}		--> http | https | ftp | ftps
 
-<CAR> --> a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | _ | - | & | ? | =
+{CAR}		--> a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | _ | - | & | ? | =
 
-<CAR> --> A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
+{CAR}		--> A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
 
-<RUTA> --> <CAR> | <CAR>/<RUTA>
-<DOMINIO> --> <CAR> | <CAR>.<DOMINIO>
-<PUERTO> --> <NUM>
+{RUTA}		--> {CAR} | {CAR}/{RUTA}
+{DOMINIO}	--> {CAR} | {CAR}.{DOMINIO}
+{PUERTO}	--> {NUM}
 
-<ENLACE> --> <PROT>:// | <PROT>://<DOMINIO>/ | <PROT>://<DOMINIO>/<RUTA> | <PROT>://<DOMINIO>:<PUERTO>/ | <PROT>://<DOMINIO>:<PUERTO>/<RUTA>#<CAR> | <PROT>://<DOMINIO>/<RUTA>#<CAR>
+{ENLACE}	--> {PROT}://{DOMINIO}/ | {PROT}://{DOMINIO}/{RUTA} | {PROT}://{DOMINIO}:{PUERTO}/ | {PROT}://{DOMINIO}:{PUERTO}/{RUTA}#{CAR} | {PROT}://{DOMINIO}/{RUTA}#{CAR}
 
-<LINK> --> <link><ENLACE></link>
-<URL> --> <url><ENLACE></url>
+{LINK}		--> <link>{ENLACE}</link>
+{URL}		--> <url>{ENLACE}</url>
 ```
 
 ### Cuerpo del documento
@@ -115,83 +120,83 @@ Analizando el formato característico de los documentos RSS y teniendo en cuenta
 #### Cabecera
 
 ```
-<SIGMA> --> <DEFXML><DEFRSS>
+{SIGMA}		--> {DEFXML}{DEFRSS}
 
-<VERSIONADO> --> version
-<CODIFICACION> --> encoding
-<IGUAL> --> =
+{VERSIONADO}	--> version
+{CODIFICACION}	--> encoding
+{IGUAL}		--> =
 
-<DEFXML> --> <?xml<VERSIONADO><IGUAL>"<VERSION>"<CODIFICACION><IGUAL>"<CAD>"?> | <?xml<VERSIONADO><IGUAL>"<VERSION>”?>
-<DEFRSS> --> <rss<VERSIONADO><IGUAL>"<VERSION>"><CANAL></rss>
+{DEFXML}	--> <?xml{VERSIONADO}{IGUAL}"{VERSION}"{CODIFICACION}{IGUAL}"{CAD}"?> | <?xml{VERSIONADO}{IGUAL}"{VERSION}”?>
+{DEFRSS}	--> <rss{VERSIONADO}{IGUAL}"{VERSION}">{CANAL}</rss>
 ```
 
 #### Canal
 
 ```
-<CANAL-OBLIGATORIO> --> <TITULO><LINK><DESC>
+{CANAL-OBLIGATORIO}	--> {TITULO}{LINK}{DESC}
 
-<CANAL-OPCIONAL> --> <CATEGORIA><DERECHOS><IMAGEN> |  <CATEGORIA><DERECHOS> | <CATEGORIA><IMAGEN> | <DERECHOS><IMAGEN> | <CATEGORIA> | <DERECHOS> | <IMAGEN>
+{CANAL-OPCIONAL}	--> {CATEGORIA}{DERECHOS}{IMAGEN} |  {CATEGORIA}{DERECHOS} | {CATEGORIA}{IMAGEN} | {DERECHOS}{IMAGEN} | {CATEGORIA} | {DERECHOS} | {IMAGEN}
 
-<CANAL-VACIO> --> <channel><CANAL-OBLIGATORIO></channel> | <channel><CANAL-OBLIGATORIO><CANAL-OPCIONAL></channel>
+{CANAL-VACIO}		--> <channel>{CANAL-OBLIGATORIO}</channel> | <channel>{CANAL-OBLIGATORIO}{CANAL-OPCIONAL}</channel>
 
-<CANAL-ITEMS> --> <channel><CANAL-OBLIGATORIO><ITEMS></channel> | <channel><CANAL-OBLIGATORIO><CANAL-OPCIONAL><ITEMS></channel>
+{CANAL-ITEMS}		--> <channel>{CANAL-OBLIGATORIO}{ITEMS}</channel> | <channel>{CANAL-OBLIGATORIO}{CANAL-OPCIONAL}{ITEMS}</channel>
 
-<CANAL> --> <CANAL-VACIO> | <CANAL-ITEMS>
+{CANAL}			--> {CANAL-VACIO} | {CANAL-ITEMS}
 ```
 
 #### Items
 
 ```
-<ITEM-OBLIGATORIO> --> <TITULO><LINK><DESC> | <TITULO><DESC><LINK> | <LINK><TITULO><DESC> | <LINK><DESC><TITULO> | <DESC><LINK><TITULO> | <DESC><TITULO><LINK>
+{ITEM-OBLIGATORIO}	--> {TITULO}{LINK}{DES} | {TITULO}{DESC}{LIN} | {LINK}{TITULO}{DES} | {LINK}{DESC}{TITUL} | {DESC}{LINK}{TITUL} | {DESC}{TITULO}{LIN}
 
-<ITEM> --> <item><ITEM-OBLIGATORIO></item> | <item><CATEGORIA><ITEM-OBLIGATORIO></item> | <item><ITEM-OBLIGATORIO><CATEGORIA></item>
+{ITEM}			--> <item>{ITEM-OBLIGATORIO}</item> | <item>{CATEGORIA}{ITEM-OBLIGATORIO}</item> | <item>{ITEM-OBLIGATORIO}{CATEGORIA}</item>
 
-<ITEMS> --> <ITEM><ITEMS> | <ITEM>
+{ITEMS}			--> {ITEM}{ITEMS} | {ITEM}
 ```
 
 #### Imágen
 
 ```
-<IMAGEN-OBLIGATORIO> --> <TITULO><URL><LINK> | <TITULO><LINK><URL> | <LINK><TITULO><URL> | <LINK><URL><TITULO> | <URL><TITULO><LINK> | <URL><LINK<TITULO>
+{IMAGEN-OBLIGATORIO}	--> {TITULO}{URL}{LINK} | {TITULO}{LINK}{URL} | {LINK}{TITULO}{URL} | {LINK}{URL}{TITULO} | {URL}{TITULO}{LINK} | {URL}{LINK}TITULO}
 
-<IMAGEN-OPCIONAL> --> <ALTO><ANCHO> | <ANCHO><ALTO> | <ALTO> | <ANCHO>
+{IMAGEN-OPCIONAL}	--> {ALTO}{ANCHO} | {ANCHO}{ALTO} | {ALTO} | {ANCHO}
 
-<IMAGEN> --> <image><IMAGEN-OBLIGATORIO></image> | <image><IMAGEN-OBLIGATORIO><IMAGEN-OPCIONAL></image> | <image><IMAGEN-OPCIONAL><IMAGEN-OBLIGATORIO></image>
+{IMAGEN}		--> <image>{IMAGEN-OBLIGATORIO}</image> | <image>{IMAGEN-OBLIGATORIO}{IMAGEN-OPCIONAL}</image> | <image>{IMAGEN-OPCIONAL}{IMAGEN-OBLIGATORIO}</image>
 ```
 
 #### Símbolos no terminales
 
 ```
-<NUM>
-<CAD>
-<TÍTULO>
-<DESC>
-<CATEGORÍA>
-<DERECHOS>
-<PROT>
-<CAR>
-<LINK>
-<URL>
-<DEFXML>
-<DEFRSS>
-<CANAL-OBLIGATORIO>
-<CANAL-OPCIONAL>
-<CANAL-VACIO>
-<CANAL-ITEMS> 
-<ITEM>
-<ITEMS>
-<ITEM-OBLIGATORIO>
-<ALTURA>
-<ANCHO>
-<IMAGEN-OBLIGATORIO>
-<IMAGEN-OPCIONAL>
-<IMAGEN>
-<DOMINIO>
-<VERSION>
-<RUTA>
-<VERSIONADO>
-<CODIFICACION>
-<IGUAL>
+{NUM}
+{CAD}
+{TÍTULO}
+{DESC}
+{CATEGORÍA}
+{DERECHOS}
+{PROT}
+{CAR}
+{LINK}
+{URL}
+{DEFXML}
+{DEFRSS}
+{CANAL-OBLIGATORIO}
+{CANAL-OPCIONAL}
+{CANAL-VACIO}
+{CANAL-ITEMS>}
+{ITEM}
+{ITEMS}
+{ITEM-OBLIGATORIO}
+{ALTURA}
+{ANCHO}
+{IMAGEN-OBLIGATORIO}
+{IMAGEN-OPCIONAL}
+{IMAGEN}
+{DOMINIO}
+{VERSION}
+{RUTA}
+{VERSIONADO}
+{CODIFICACION}
+{IGUAL}
 ```
 
 #### Símbolos terminales
@@ -204,3 +209,4 @@ Analizando el formato característico de los documentos RSS y teniendo en cuenta
 <div style="page-break-after: always"></div>
 
 ## Lexer
+
