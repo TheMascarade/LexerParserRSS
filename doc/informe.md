@@ -16,13 +16,13 @@
 
 ## Índice
 
-1. [Introducción](#introduccion)
+1. [Introducción](#introducción)
 
-2. [Gramática](#gramatica)
+2. [Gramática](#gramática)
 
 	1. [Tipos de datos y derivados](#tipos-de-datos-y-derivados)
      
-		1. [Números enteros](#numeros-enteros)
+		1. [Números enteros](#números-enteros)
      
 		3. [Cadena de caracteres](#cadena-de-caracteres)
      
@@ -36,11 +36,11 @@
 
     	3. [Items](#items)
 
-		4. [Imagen](#imagen)
+		4. [Imagen](#imágen)
      
-    3. [Símbolos no terminales](#simbolos-no-terminales)
+    3. [Símbolos no terminales](#símbolos-no-terminales)
      
-    4. [Símbolos terminales](#simbolos-terminales)
+    4. [Símbolos terminales](#símbolos-terminales)
 
 3. [Lexer](#lexer)
 
