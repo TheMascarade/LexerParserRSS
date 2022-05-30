@@ -5,7 +5,7 @@
 	- Bella Matias Nicolas.
 	- Molinas González Víctor.
 	- Lezcano Claudio Federico.
-	- Gomes Martin.
+	- Gomes Martin Maximiliano.
 - Asignatura: Sintaxis y semántica de los lenguajes.
 - Carrera: Ingeniería de Sistemas de Información.
 - Primer cuatrimestre.
@@ -44,6 +44,8 @@
 
 3. [Lexer](#lexer)
 
+    4. [Tokens Utilizados]
+
 <div style="page-break-after: always"></div>
 
 ## Introducción
@@ -68,7 +70,66 @@ Analizando el formato característico de los documentos RSS y teniendo en cuenta
 
 La segunda etapa consistirá en la conformación de un lexer que deberá ser capaz de identificar cada uno de los tokens dentro del documento, este conformará la primer etapa de detección de errores en el contenido, ya sean lexicos o sintácticos.
 
+En el desarrollo de esta estapa se hizo uso de Flex, una herramienta especializada en la generación de escáners léxicos. La forma en que desempeña su tarea es tomando una entrada, ya sea un archivo o entrada estándar, que es usada como "esqueleto" o descripción del escáner a generar.
+
+La descripción del escáner, en caso de ser un archivo, debe tener la extensión `.l` que deberemos especificar como entrada por medio del comando `$ flex nombre-archivo.l` lo que generará un archivo fuente con extensión `.c`, por defecto `lex.yy.c`, que deberá ser compilado.
+
+Esta descripción estará compuesta de cuatro partes:
+
+![Secciones de la descripción del escáner](https://i.imgur.com/d0fBykE.png)
+
+#### Sección de definiciones
+
+Contiene declaraciones de definiciones nombradas para simplificar las especificaciones del escáner y declaraciones de condiciones de inicio.
+
+Una definición es una palabra que compienza con letra o guión bajo y que puede contener letras, números, guión bajo o medio y que está precedida por una expresión regular de la cual funciona como referencia.
+
+Ej:
+
+```c
+DIGITO		[0-9]
+```
+
+#### Sección de código C
+
+Nos permite definir macros, importar librerías, etc. que podrán ser útiles en la sección de reglas cuando queramos retornar algún valor o imprimir a salida estándar algún resultado.
+
+Todo lo que esté presente en esta sección será copiado literalmente al archivo `lex.yy.c`.
+
+#### Sección de reglas
+
+Esta sección contiene una serie de reglas que siguen el siguiente patrón:
+
+```
+patrón		acción
+```
+
+Donde:
+
+- `patrón`: puede ser una referencia a una expresión regular o una expresión en sí mismo y no puede estar indentado.
+- `acción`: debe comenzar en la misma línea que el patrón al que está relacionada y refiere a código a ejecutarse cuando se satisfaga el patrón en la entrada.
+
+#### Sección de código de usuario
+
+Esta sección opcional es copiada de forma literal al archivo `lex.yy.c` y es usada para rutinas de acompañamiento que llaman o son llamadas por el escáner.
+
 <div style="page-break-after: always"></div>
+
+---
+
+Una vez generado el archivo `lex.yy.c` este debe ser compilado para obtener el ejecutable.
+
+Llegada esta etapa tendremos dos formas de utilizar el analizador léxico generado:
+- Pasarle la entrada mediante consola, es decir, en modo interactivo.
+- Definir un archivo de prueba y pasarlo como entrada al ejecutar el lexer.
+
+Independientemente de la forma que tome la entrada el escáner la analizará buscando cadenas de caracteres que coincidan con alguna de las reglas definidas.
+
+Una vez que una coincidencia es determinada el texto correspondiente a ella se hace disponible en el puntero de caracter global `yytext` y su longitud en el puntero entero `yyleng`. La acción correspondiente a la regla es ejecutada y el resto de la entrada es analizada en busca de la siguiente coincidencia.
+
+En el caso de que haya una coincidencia con dos reglas diferentes se tomará la que incluya la mayor cantidad de texto y, si ambas tienen la misma cantidad, se tomará la que haya estado definida primero en la descripción del escáner.
+
+Si no existen coincidencias entonces se ejecutará la regla por defecto: el siguiente caracter en la entrada es considerado como coincidente y copiado a salida estándar.
 
 ## Gramática
 
@@ -109,7 +170,7 @@ La segunda etapa consistirá en la conformación de un lexer que deberá ser cap
 {DOMINIO}	--> {CAR} | {CAR}.{DOMINIO}
 {PUERTO}	--> {NUM}
 
-{ENLACE}	--> {PROT}://{DOMINIO}/ | {PROT}://{DOMINIO}/{RUTA} | {PROT}://{DOMINIO}:{PUERTO}/ | {PROT}://{DOMINIO}:{PUERTO}/{RUTA}#{CAR} | {PROT}://{DOMINIO}/{RUTA}#{CAR}
+{ENLACE}	--> {PROT}:// | {PROT}://{DOMINIO}/ | {PROT}://{DOMINIO}/{RUTA} | {PROT}://{DOMINIO}:{PUERTO}/ | {PROT}://{DOMINIO}:{PUERTO}/{RUTA}#{CAR} | {PROT}://{DOMINIO}/{RUTA}#{CAR}
 
 {LINK}		--> <link>{ENLACE}</link>
 {URL}		--> <url>{ENLACE}</url>
@@ -210,3 +271,29 @@ La segunda etapa consistirá en la conformación de un lexer que deberá ser cap
 
 ## Lexer
 
+### Tokens Utilizados
+
+Los siguientes tokens seran el resultado del análisis en la siguiente etapa.
+ 
+```
+<title> - </title> - <description> - </description> - <category> - </category> - <copyright> - </copyright> - <height> - </height> - <width> - </width> - <link> - </link> - <channel> - </channel> - <url> - </url> - <item> - </item> - <image> - </imagen> - </rss> - {version} - {xml} - {cxml} - {rss} - {defRSS} - {defXML} - {enlace} - {cadena de caracteres} - {espacio}
+```
+
+Una vez detectado el token se devuelve junto con la porción de la entrada que corresponde con el token.
+ 
+```
+    Token: Texto de entrada
+```
+Ej:
+
+```
+    -Enlace: https://www.google.com
+```
+En el caso de algunos tokens se añadirá si corresponde a una apertura o una clausura de sentencia.
+
+ Ej:
+
+```
+    -Apertura de item: <item>
+    -Clausura de item: </item>
+```
