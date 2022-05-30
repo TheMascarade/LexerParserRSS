@@ -22,8 +22,8 @@ dominio             {texto_url}(\.{texto_url})+
 puerto              {dp}{numero}
 ruta                {sl}({texto_url}{sl})*
 fragmento           {hs}?{texto_url}
-protocolo           (http|https|ftp|ftps)
-enlace              {protocolo}{dp}{sl}{sl}{dominio}{puerto}?({ruta}{fragmento}?)?
+protocolo           (http|https|ftp|ftps){dp}{sl}{sl}
+enlace              {protocolo}(www)?{dominio}{puerto}?({ruta}{fragmento}?)?
 
 may                 ">"
 rss                 "<rss"
