@@ -40,5 +40,33 @@
 	defRSS:
 		D_RSS
 	defXML:
-		D_XML	
+		D_XML
+	imagen_obligatorio:
+		url titulo link
+	imagen_opcional:
+		alto
+		| ancho
+		| alto ancho
+	imagen:
+		A_IMG imagen_obligatorio C_IMG
+		| A_IMG imagen_obligatorio imagen_opcional C_IMG
+	item_obligatorio:
+		titulo link descripcion
+	item_opcional:
+		categoria
+	item:
+		A_ITEM item_obligatorio C_ITEM
+		| A_ITEM item_obligatorio item_opcional C_ITEM
+	canal_obligatorio:
+		titulo link descripcion
+	canal_opcional:
+		categoria
+		| derechos
+		| imagen
+		| categoria derechos
+		| categoria imagen
+		|derechos imagen
+	canal:
+		A_CANAL canal_obligatorio C_CANAL
+		| A_CANAL canal_obligatorio canal_opcional C_CANAL
 %%
