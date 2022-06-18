@@ -5,7 +5,7 @@
 %option yylineno
 
 numero 				[0-9]+
-letra               [0-9À-ÿa-zA-Z\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\" ]
+letra               [À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\"]
 vers_num 			{qu}{numero}(\.{numero})*{qu}
 qu                  ["]
 espacio				[" "]
@@ -36,42 +36,41 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 
 %%
 "quit"                  {quit(); return 0;}
-"<title>"			    {printf("-Apertura de titulo: %s\n", yytext);}
-"</title>"			    {printf("-Clausura de titulo: %s\n", yytext);}
-"<description>"		    {printf("-Apertura de descripcion: %s\n", yytext);}
-"</description>"	    {printf("-Clausura de descripcion: %s\n", yytext);}
-"<category>"		    {printf("-Apertura de categoria: %s\n", yytext);}
-"</category>"		    {printf("-Clausura de categoria: %s\n", yytext);}
-"<copyright>"		    {printf("-Apertura de copyright: %s\n", yytext);}
-"</copyright>"		    {printf("-Clausura de copyright: %s\n", yytext);}
-"<height>"			    {printf("-Apertura de alto: %s\n", yytext);}
-"</height>"			    {printf("-Clausura de alto: %s\n", yytext);}
-"<width>"			    {printf("-Apertura de ancho: %s\n", yytext);}
-"</width>"			    {printf("-Clausura de ancho: %s\n", yytext);}
-"<link>"			    {printf("-Apertura de link: %s\n", yytext);}
-"</link>"			    {printf("-Clausura de link: %s\n", yytext);}
-"<url>"				    {printf("-Apertura de url: %s\n", yytext);}
-"</url>"			    {printf("-Clausura de url: %s\n", yytext);}
-"<channel>"			    {printf("-Apertura de canal: %s\n", yytext);}
-"</channel>"		    {printf("-Clausura de canal: %s\n", yytext);}
-"<item>"			    {printf("-Apertura de item: %s\n", yytext);}
-"</item>"			    {printf("-Clausura de item: %s\n", yytext);}
-"<image>"			    {printf("-Apertura de imagen: %s\n", yytext);}
-"</image>"			    {printf("-Clausura de imagen: %s\n", yytext);}
-"</rss>"			    {printf("-Clausura de documento RSS: %s\n", yytext);}
-{version}				{printf("-Version: %s\n", yytext);}
-{xml}					{printf("-Apertura XML: %s\n", yytext);}
-{cxml}					{printf("-Clausura XML: %s\n", yytext);}
-{rss}					{printf("-Apertura RSS: %s\n", yytext);}
-{defRSS}		        {printf("-Apertura de documento RSS: %s\n", yytext);}
-{defXML}			    {printf("-Definicion XML: %s\n", yytext);}
-{enlace}			    {printf("-Enlace: %s\n", yytext);}
-{numero}                {printf("-Numero: %s\n",yytext);}
-{cadena}                {printf("-Cadena de caracteres: %s\n", yytext);}
+"<title>"			    {return(A_TITULO);}
+"</title>"			    {return(C_TITULO);}
+"<description>"		    {return(A_DESC);}
+"</description>"	    {return(C_DESC);}
+"<category>"		    {return(A_CAT);}
+"</category>"		    {return(C_CAT);}
+"<copyright>"		    {return(A_DER);}
+"</copyright>"		    {return(C_DER);}
+"<height>"			    {return(A_ALT);}
+"</height>"			    {return(C_ALT);}
+"<width>"			    {return(A_ANCHO);}
+"</width>"			    {return(C_ANCHO);}
+"<link>"			    {return(A_LINK);}
+"</link>"			    {return(C_LINK);}
+"<url>"				    {return(A_URL);}
+"</url>"			    {return(C_URL);}
+"<channel>"			    {return(A_CANAL);}
+"</channel>"		    {return(C_CANAL);}
+"<item>"			    {return(A_ITEM);}
+"</item>"			    {return(C_ITEM);}
+"<image>"			    {return(A_IMG);}
+"</image>"			    {return(C_IMG);}
+"</rss>"			    {return(C_RSS);}
+{version}				{return(VERSION);}
+{xml}					{return(A_XML);}
+{cxml}					{return(C_XML);}
+{rss}					{return(A_RSS);}
+{defRSS}		        {return(D_RSS);}
+{defXML}			    {return(D_XML);}
+{enlace}			    {return(ENLACE);}
+({cadena}*|{numero}*)   {return(CAD);}
 {espacio}               {;}
 "\n"                    {;}
 "\t"                    {;}
-.					    {printf("-Sentencia no reconocida: %s\n", yytext);}
+.					    {return();}
 %%
 
 // Abre archivo o permite el ingreso manual
