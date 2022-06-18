@@ -10,6 +10,7 @@ vers_num 			{qu}{numero}(\.{numero})*{qu}
 qu                  ["]
 espacio				[" "]
 cadena              {espacio}*{letra}{letra}*{espacio}*
+string				(cadena|numero)*
 
 caracter_url        [a-zA-Z0-9]|[-_.?&%=]
 texto_url           {caracter_url}{caracter_url}*
@@ -58,15 +59,11 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 "</item>"			    {return(C_ITEM);}
 "<image>"			    {return(A_IMG);}
 "</image>"			    {return(C_IMG);}
-"</rss>"			    {return(C_RSS);}
-{version}				{return(VERSION);}
-{xml}					{return(A_XML);}
-{cxml}					{return(C_XML);}
-{rss}					{return(A_RSS);}
 {defRSS}		        {return(D_RSS);}
 {defXML}			    {return(D_XML);}
 {enlace}			    {return(ENLACE);}
-({cadena}*|{numero}*)   {return(CAD);}
+{string}			  	{return(CAD);}
+{numero}				{return(NUM)}
 {espacio}               {;}
 "\n"                    {;}
 "\t"                    {;}
