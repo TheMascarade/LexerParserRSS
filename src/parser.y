@@ -17,6 +17,7 @@
 	D_RSS
 	D_XML
 	CAD ENLACE NUM
+%start documento
 
 
 %%
