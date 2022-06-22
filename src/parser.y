@@ -87,7 +87,8 @@
 		| A_ITEM item_opcional item_obligatorio C_ITEM
 	;
 	items:
-		item
+		%empty
+		| item
 		| item items
 	;
 	canal_obligatorio:
@@ -113,11 +114,6 @@
 		| imagen categoria derechos
 		| imagen derechos categoria
 	;
-	canal_vacio:
-		A_CANAL canal_obligatorio C_CANAL
-		| A_CANAL canal_obligatorio canal_opcional C_CANAL
-		| A_CANAL canal_opcional canal_obligatorio C_CANAL
-	;
 	canal_item:
 		A_CANAL canal_obligatorio items C_CANAL
 		| A_CANAL items canal_obligatorio C_CANAL
@@ -130,7 +126,6 @@
 	;
 	canal:
 		canal_item
-		| canal_vacio
 	;
 	documento:
 		defXML defRSS canal C_RSS
