@@ -114,7 +114,7 @@
 		| imagen categoria derechos
 		| imagen derechos categoria
 	;
-	canal_item:
+	canal:
 		A_CANAL canal_obligatorio items C_CANAL
 		| A_CANAL items canal_obligatorio C_CANAL
 		| A_CANAL canal_obligatorio canal_opcional items C_CANAL
@@ -123,9 +123,6 @@
 		| A_CANAL items canal_opcional canal_obligatorio C_CANAL
 		| A_CANAL canal_opcional canal_obligatorio items C_CANAL
 		| A_CANAL canal_opcional items canal_obligatorio C_CANAL
-	;
-	canal:
-		canal_item
 	;
 	documento:
 		defXML defRSS canal C_RSS
