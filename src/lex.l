@@ -29,10 +29,11 @@ may                 ">"
 rss                 "<rss"
 version             (version{espacio}*={espacio}*{vers_num})
 encoding            (encoding{espacio}*={espacio}*{qu}{cadena}{qu})
-xml                 "<?xml"
-cxml				"\?>"
+a_xml				"<?xml"
+c_xml				"\?>"
+c_rss				"</rss>"
 
-defXML				({xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{cxml})
+defXML				({a_xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{c_xml})
 defRSS				({rss}{espacio}*{version}{espacio}*{may})
 
 %%
@@ -60,6 +61,7 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 "<image>"			    {return(A_IMG);}
 "</image>"			    {return(C_IMG);}
 {defRSS}		        {return(D_RSS);}
+{c_rss}					{return(C_RSS);}
 {defXML}			    {return(D_XML);}
 {enlace}			    {return(ENLACE);}
 {string}			  	{return(CAD);}
