@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "parser.tab.h"
 %}
 %option noyywrap
 %option yylineno
@@ -71,26 +72,3 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 "\t"                    {;}
 .					    {return();}
 %%
-
-// Abre archivo o permite el ingreso manual
-int main (int argc, char *argv[]){
-    if (argc == 2){
-        if ( (yyin = fopen(argv[1], "rt")) == NULL){
-            printf ("\nNo se puede abrir el archivo (%s)\n", argv[1]);
-            return 1;
-        } else{
-            printf("\nArchivo (%s) abierto.\n", argv[1]);
-            yylex();
-        }
-        printf ("\nFin del archivo (%s)\n", argv[1]);
-        fclose(yyin);
-        return 0;
-    } else{
-        yyin = stdin;
-        printf ("\nIngrese manualmente las sentencias. Escriba quit para salir\n");
-        yylex();
-    }
-}
-quit(){
-    printf("Saliendo\n");
-}

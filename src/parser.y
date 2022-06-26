@@ -1,7 +1,8 @@
 %{
-	#include<stdio.h>
-	int yylex(int);
+	#include <stdio.h>
+	#include "lex.yy.c"
 	void yyerror(void);
+
 %}
 %token A_TITULO C_TITULO
 	A_DESC C_DESC
@@ -129,3 +130,43 @@
 		| defRSS canal C_RSS
 	;
 %%
+yyerror(char *msg)
+{
+	printf("%s\n",msg);
+}
+eval_parse(int salida)
+{
+	switch (salida)
+	{
+		case 0:
+			printf("Compilado exitoso\n");
+			break;
+		case 1:
+			printf("l: %i\n",yylineno);
+			break;
+		case 2:
+			printf("ERROR, falta de memoria");
+			break;
+	}
+}	
+int main(int argc, char **argv){
+	if(argc==2)
+	{
+		yyin=fopen(argv[1],"r");
+		if(yyin==NULL)
+		{
+			printf("Archivo inexistente\n");
+		}
+		else
+		{
+			eval_parse(yyparse());
+			fclose(yyin);
+		}
+	}
+	else
+	{
+		printf("Ingrese por teclado\n");
+		yyin=stdin;
+		eval_parse(yyparse());
+	}
+}
