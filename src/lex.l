@@ -38,7 +38,6 @@ defXML				({a_xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{c_xml})
 defRSS				({rss}{espacio}*{version}{espacio}*{may})
 
 %%
-"quit"                  {quit(); return 0;}
 "<title>"			    {return(A_TITULO);}
 "</title>"			    {return(C_TITULO);}
 "<description>"		    {return(A_DESC);}
@@ -66,9 +65,9 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 {defXML}			    {return(D_XML);}
 {enlace}			    {return(ENLACE);}
 {string}			  	{return(CAD);}
-{numero}				{return(NUM)}
+{numero}				{return(NUM);}
 {espacio}               {;}
 "\n"                    {;}
 "\t"                    {;}
-.					    {return();}
+.					    {;}
 %%
