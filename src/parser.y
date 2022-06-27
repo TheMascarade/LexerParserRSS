@@ -17,9 +17,7 @@
 	D_RSS C_RSS
 	D_XML
 	CAD ENLACE NUM
-%start documento
-
-
+%start documento // no terminal distinguido (sigma).
 %%
 	titulo:
 		A_TITULO CAD C_TITULO
