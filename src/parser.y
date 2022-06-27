@@ -26,16 +26,20 @@
 		A_DESC CAD C_DESC
 	;
 	categoria:
-		A_CAT CAD C_CAT
+		%empty
+		| A_CAT CAD C_CAT
 	;
 	derechos:
-		A_DER CAD C_DER
+		%empty
+		| A_DER CAD C_DER
 	;
 	alto:
-		A_ALT NUM C_ALT
+		%empty
+		| A_ALT NUM C_ALT
 	;
 	ancho:
-		A_ANCHO NUM C_ANCHO
+		%empty
+		| A_ANCHO NUM C_ANCHO
 	;
 	url:
 		A_URL ENLACE C_URL
@@ -58,13 +62,12 @@
 		| link url titulo
 	;
 	imagen_opcional:
-		alto
-		| ancho
-		| alto ancho
+		alto ancho
 		| ancho alto
 	;
 	imagen:
-		A_IMG imagen_obligatorio C_IMG
+		%empty
+		| A_IMG imagen_obligatorio C_IMG
 		| A_IMG imagen_obligatorio imagen_opcional C_IMG
 		| A_IMG imagen_opcional imagen_obligatorio C_IMG
 	;
@@ -98,14 +101,7 @@
 		| link descripcion titulo
 	;
 	canal_opcional:
-		categoria
-		| derechos
-		| imagen
-		| categoria derechos
-		| categoria imagen
-		| derechos imagen
-		| derechos categoria
-		| categoria derechos imagen
+		categoria derechos imagen
 		| categoria imagen derechos
 		| derechos categoria imagen
 		| derechos imagen categoria
