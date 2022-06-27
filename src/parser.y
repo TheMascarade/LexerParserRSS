@@ -1,9 +1,8 @@
 %{
 	#include <stdio.h>
 	#include "lex.yy.c"
-	void yyerror(void);
-
 %}
+%glr-parser // Hace que el parser generado actúe como un APD (con backtracking) y pueda procesar gramáticas ambiguas.
 %token A_TITULO C_TITULO
 	A_DESC C_DESC
 	A_CAT C_CAT
