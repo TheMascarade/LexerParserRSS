@@ -3,7 +3,7 @@
 	#include "lex.yy.c"
 %}
 %glr-parser // Hace que el parser generado actúe como un APD (con backtracking) y pueda procesar gramáticas ambiguas.
-%define parse.error detailed
+%define parse.error detailed // Mas informacion de errores.
 %token A_TITULO C_TITULO
 	A_DESC C_DESC
 	A_CAT C_CAT
