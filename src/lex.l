@@ -10,8 +10,7 @@ letra               [À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\"]
 vers_num 			{qu}{numero}(\.{numero})*{qu}
 qu                  ["]
 espacio				[" "]
-cadena              {espacio}*{letra}{letra}*{espacio}*
-string				(cadena|numero)*
+cadena				({espacio}*|{letra}+|{numero}*)+ 
 
 caracter_url        [a-zA-Z0-9]|[-_.?&%=]
 texto_url           {caracter_url}{caracter_url}*
@@ -64,7 +63,7 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 {c_rss}					{return(C_RSS);}
 {defXML}			    {return(D_XML);}
 {enlace}			    {return(ENLACE);}
-{string}			  	{return(CAD);}
+{cadena}			  	{return(CAD);}
 {numero}				{return(NUM);}
 {espacio}               {;}
 "\n"                    {;}
