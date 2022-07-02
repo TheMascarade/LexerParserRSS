@@ -29,9 +29,10 @@ rss					"<rss"
 version				(version{espacio}*={espacio}*{vers_num})
 encoding			(encoding{espacio}*={espacio}*{qu}{cadena}{qu})
 xml					"<?xml"
-cxml				"\?>"
+c_xml				"\?>"
+c_rss				"</rss>"
 
-defXML				({xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{cxml})
+defXML				({xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{c_xml})
 defRSS				({rss}{espacio}*{version}{espacio}*{may})
 
 %%
@@ -58,12 +59,9 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 "</item>"			    {printf("-Clausura de item: %s\n", yytext);}
 "<image>"			    {printf("-Apertura de imagen: %s\n", yytext);}
 "</image>"			    {printf("-Clausura de imagen: %s\n", yytext);}
-"</rss>"			    {printf("-Clausura de documento RSS: %s\n", yytext);}
 {version}				{printf("-Version: %s\n", yytext);}
-{xml}					{printf("-Apertura XML: %s\n", yytext);}
-{cxml}					{printf("-Clausura XML: %s\n", yytext);}
-{rss}					{printf("-Apertura RSS: %s\n", yytext);}
-{defRSS}				{printf("-Apertura de documento RSS: %s\n", yytext);}
+{defRSS}				{printf("-Apertura RSS: %s\n", yytext);}
+{c_rss}					{printf("-Clausura de documento RSS: %s\n", yytext);}
 {defXML}				{printf("-Definicion XML: %s\n", yytext);}
 {enlace}				{printf("-Enlace: %s\n", yytext);}
 {cadena}				{printf("-Cadena de caracteres: %s\n", yytext);}
