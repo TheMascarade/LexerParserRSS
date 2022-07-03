@@ -6,13 +6,13 @@
 %option yylineno
 
 numero 				[0-9]+
-letra               [À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\"]
+letra               [À-ÿa-zA-Z/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\\"]
 vers_num 			{qu}{numero}(\.{numero})*{qu}
 qu                  ["]
 espacio				[" "]
-cadena				({espacio}*|{letra}+)+ 
+cadena				({letra}+|{numero}*|{espacio}*)+
 
-caracter_url        [a-zA-Z0-9]|[-_.?&%=]
+caracter_url        [a-zA-Z]|[-_.?&%=]|{numero}
 texto_url           {caracter_url}{caracter_url}*
 
 dp                  [:]
