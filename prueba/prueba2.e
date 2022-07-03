@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 	<channel>
-		<title>RSS de la cátedra de Sintaxis y Semántica de Lenguajes </title>
+		<title> RSS de la cátedra de Sintaxis y Semántica de Lenguajes </title>
 		<link>https://frre.cvg.utn.edu.ar/course/view.php?id=399</link>
 		<description>Sintaxis y Semántica de Lenguajes de la U.T.N. F.R.Resistencia. </description>
 		<category>Educacion</category>
