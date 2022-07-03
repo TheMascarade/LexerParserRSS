@@ -59,11 +59,11 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 "</item>"			    {return(C_ITEM);}
 "<image>"			    {return(A_IMG);}
 "</image>"			    {return(C_IMG);}
-{defRSS}		        {return(D_RSS);printf("definicion RSS");}
+{defRSS}		        {return(D_RSS);}
 {c_rss}					{return(C_RSS);}
 {defXML}			    {return(D_XML);}
 {enlace}			    {return(ENLACE);}
-{cadena}			  	{return(CAD);printf("Cadena de caracteres: %s\n",yytext);}
+{cadena}			  	{return(CAD);}
 {numero}				{return(NUM);}
 {espacio}               {;}
 "\n"                    {;}
