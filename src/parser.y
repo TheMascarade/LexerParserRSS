@@ -20,81 +20,109 @@
 	CAD ENLACE NUM
 %start documento // no terminal distinguido (sigma).
 %%
-	titulo:
-		A_TITULO CAD C_TITULO
+	documento:
+		defXML defRSS canal C_RSS
 	;
-	descripcion:
-		A_DESC CAD C_DESC
-	;
-	categoria:
-		%empty
-		| A_CAT CAD C_CAT
-	;
-	derechos:
-		%empty
-		| A_DER CAD C_DER
-	;
-	alto:
-		%empty
-		| A_ALT NUM C_ALT
-	;
-	ancho:
-		%empty
-		| A_ANCHO NUM C_ANCHO
-	;
-	url:
-		A_URL ENLACE C_URL
-	;
-	link:
-		A_LINK ENLACE C_LINK
+	defXML:
+		%empty %dprec 10
+		| D_XML %dprec 9
 	;
 	defRSS:
 		D_RSS
 	;
-	defXML:
-		%empty
-		| D_XML
+	canal:
+		A_CANAL canal_obligatorio canal_opcional items C_CANAL %dprec 49
+		| A_CANAL canal_obligatorio items canal_opcional C_CANAL %dprec 48
+		| A_CANAL canal_opcional canal_obligatorio items C_CANAL %dprec 47
+		| A_CANAL canal_opcional items canal_obligatorio C_CANAL %dprec 46
+		| A_CANAL items canal_obligatorio canal_opcional C_CANAL %dprec 45
+		| A_CANAL items canal_opcional canal_obligatorio C_CANAL %dprec 44
 	;
-	imagen_obligatorio:
-		url titulo link
+	canal_obligatorio:
+		titulo link descripcion %dprec 20
+		| titulo descripcion link %dprec 19
+		| link descripcion titulo %dprec 18
+		| link titulo descripcion %dprec 17
+		| descripcion link titulo %dprec 16
+		| descripcion titulo link %dprec 15
 	;
-	imagen_opcional:
-		alto ancho
+	canal_opcional:
+		categoria derechos imagen %dprec 26
+		| categoria imagen derechos %dprec 25
+		| derechos categoria imagen %dprec 24
+		| derechos imagen categoria %dprec 23
+		| imagen derechos categoria %dprec 22
+		| imagen categoria derechos %dprec 21
 	;
-	imagen:
-		%empty
-		| A_IMG imagen_obligatorio imagen_opcional C_IMG
+	items:
+		%empty %dprec 28
+		| item %dprec 8
+		| item items %dprec 7
+	;
+	item:
+		A_ITEM item_obligatorio item_opcional C_ITEM %dprec 27
+		| A_ITEM item_opcional item_obligatorio C_ITEM %dprec 29
 	;
 	item_obligatorio:
-		titulo link descripcion
+		titulo link descripcion %dprec 35
+		| titulo descripcion link %dprec 34
+		| link descripcion titulo %dprec 33
+		| link titulo descripcion %dprec 32
+		| descripcion link titulo %dprec 31
+		| descripcion titulo link %dprec 30
 	;
 	item_opcional:
 		categoria
 	;
-	item:
-		%empty
-		| A_ITEM item_obligatorio item_opcional C_ITEM
+	imagen:
+		%empty %dprec 13
+		| A_IMG imagen_obligatorio imagen_opcional C_IMG %dprec 14
 	;
-	items:
-		item %dprec 1
-		| item items %dprec 2
+	imagen_obligatorio:
+		url titulo link %dprec 41
+		| url link titulo %dprec 40
+		| titulo url link %dprec 39
+		| titulo link url %dprec 38
+		| link url titulo %dprec 37
+		| link titulo url %dprec 36
 	;
-	canal_obligatorio:
-		titulo link descripcion
+	imagen_opcional:
+		alto ancho %dprec 43
+		| ancho alto %dprec 42
 	;
-	canal_opcional:
-		categoria derechos imagen
+	titulo:
+		A_TITULO CAD C_TITULO
 	;
-	canal:
-		A_CANAL canal_obligatorio canal_opcional items C_CANAL
+	link:
+		A_LINK ENLACE C_LINK
 	;
-	documento:
-		defXML defRSS canal C_RSS
+	descripcion:
+		A_DESC CAD C_DESC
+	;
+	derechos:
+		%empty %dprec 12
+		| A_DER CAD C_DER %dprec 11
+	;
+	url:
+		A_URL ENLACE C_URL
+	;
+	alto:
+		%empty %dprec 6
+		| A_ALT NUM C_ALT %dprec 5
+	;
+	ancho:
+		%empty %dprec 4
+		| A_ANCHO NUM C_ANCHO %dprec 3
+	;
+	categoria:
+		%empty %dprec 2
+		| A_CAT CAD C_CAT %dprec 1
 	;
 %%
 yyerror(char *msg)
 {
 	printf("%s\n",msg);
+	return 1;
 }
 int eval_parse(int salida)
 {
@@ -112,6 +140,7 @@ int eval_parse(int salida)
 	}
 }	
 int main(int argc, char **argv){
+	int salida;
 	if(argc==2)
 	{
 		yyin=fopen(argv[1],"rt");
@@ -121,15 +150,16 @@ int main(int argc, char **argv){
 		}
 		else
 		{
-			eval_parse(yyparse());
+			salida=yyparse();
 		}
 	}
 	else
 	{
 		printf("Ingrese por teclado\n");
 		yyin=stdin;
-		eval_parse(yyparse());
+		salida=yyparse();
 	}
+	eval_parse(salida);
 	fclose(yyin);
 	return 0;
 }
