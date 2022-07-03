@@ -6,13 +6,13 @@
 %option yylineno
 
 numero 				[0-9]+
-letra               [À-ÿa-zA-Z/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\\"]
+letra               [0-9À-ÿa-zA-Z\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\" ]
 vers_num 			{qu}{numero}(\.{numero})*{qu}
 qu                  ["]
 espacio				[" "]
-cadena				({letra}+|{numero}*|{espacio}*)+
+cadena              {espacio}*{letra}{letra}*{espacio}*
 
-caracter_url        [a-zA-Z]|[-_.?&%=]|{numero}
+caracter_url        [a-zA-Z0-9]|[-_.?&%=]
 texto_url           {caracter_url}{caracter_url}*
 
 dp                  [:]
@@ -29,12 +29,13 @@ may                 ">"
 rss                 "<rss"
 version             (version{espacio}*={espacio}*{vers_num})
 encoding            (encoding{espacio}*={espacio}*{qu}{cadena}{qu})
-a_xml				"<?xml"
+xml                 "<?xml"
 c_xml				"\?>"
 c_rss				"</rss>"
 
-defXML				({a_xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{c_xml})
+defXML				({xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{c_xml})
 defRSS				({rss}{espacio}*{version}{espacio}*{may})
+
 
 %%
 "<title>"			    {return(A_TITULO);}
@@ -63,9 +64,8 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 {c_rss}					{return(C_RSS);}
 {defXML}			    {return(D_XML);}
 {enlace}			    {return(ENLACE);}
-{cadena}			  	{return(CAD);}
 {numero}				{return(NUM);}
-{espacio}               {;}
+{cadena}			  	{return(CAD);}
 "\n"                    {;}
 "\t"                    {;}
 .					    {;}
