@@ -10,8 +10,8 @@
 			<url>https://frre.cvg.utn.edu.ar/pluginfile.php/29750/theme_snap/coverimage/158439147course-image.gif</url>
 			<title>encabezado imagen SSL</title>
 			<link>https://frre.cvg.utn.edu.ar/course/view.php?id=399</link>
-			<height>250 </height>
-			<width>120 </width>
+			<height>250</height>
+			<width>120</width>
 		</image>
 		<item>
 			<title>Planificacion 2022</title>

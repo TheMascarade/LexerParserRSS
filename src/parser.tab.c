@@ -2736,7 +2736,7 @@ yyerror(char *msg)
 {
 	printf("%s\n",msg);
 }
-eval_parse(int salida)
+int eval_parse(int salida)
 {
 	switch (salida)
 	{
@@ -2754,7 +2754,7 @@ eval_parse(int salida)
 int main(int argc, char **argv){
 	if(argc==2)
 	{
-		yyin=fopen(argv[1],"r");
+		yyin=fopen(argv[1],"rt");
 		if(yyin==NULL)
 		{
 			printf("Archivo inexistente\n");
@@ -2762,7 +2762,7 @@ int main(int argc, char **argv){
 		else
 		{
 			eval_parse(yyparse());
-			fclose(yyin);
+			getchar();
 		}
 	}
 	else
@@ -2771,4 +2771,5 @@ int main(int argc, char **argv){
 		yyin=stdin;
 		eval_parse(yyparse());
 	}
+	fclose(yyin);
 }
