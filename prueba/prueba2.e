@@ -5,10 +5,9 @@
 		<link>https://frre.cvg.utn.edu.ar/course/view.php?id=399</link>
 		<description>Sintaxis y Semántica de Lenguajes de la U.T.N. F.R.Resistencia. </description>
 		<category>Educacion</category>
-		<copyright>2022 UTN. FRRe. Licencia Creative Commons. Atribución-No Comercial-Compartir Igual(CC
-		BY-NC-SA)</copyright>
+		<copyright>2022 UTN. FRRe. Licencia Creative Commons. Atribución-No Comercial-Compartir Igual(CCBY-NC-SA)</copyright>
 		<image>
-			<url>https://frre.cvg.utn.edu.ar/pluginfile.php/29750/theme_snap/coverimage/1584391474/course-image.gif</url>
+			<url>https://frre.cvg.utn.edu.ar/pluginfile.php/29750/theme_snap/coverimage/158439147course-image.gif</url>
 			<title>encabezado imagen SSL</title>
 			<link>https://frre.cvg.utn.edu.ar/course/view.php?id=399</link>
 			<height>250 </height>
