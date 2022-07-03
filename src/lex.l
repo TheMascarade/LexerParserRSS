@@ -4,39 +4,38 @@
 %option noyywrap
 %option yylineno
 
-numero				[0-9]+
-letra				[À-ÿa-zA-Z0-9\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\"]
+numero 				[0-9]+
+letra               [0-9À-ÿa-zA-Z\/,._\-%&()#!?¡¿:*;'@#$%&=+`~|°\" ]
 vers_num 			{qu}{numero}(\.{numero})*{qu}
-qu					["]
+qu                  ["]
 espacio				[" "]
-cadena				({letra}+|{espacio}*|{numero}*)+
+cadena              {espacio}*{letra}{letra}*{espacio}*
 
-caracter_url		[a-zA-Z0-9]|[-_.?&%=]
-texto_url			{caracter_url}{caracter_url}*
+caracter_url        [a-zA-Z0-9]|[-_.?&%=]
+texto_url           {caracter_url}{caracter_url}*
 
-dp					[:]
-sl					[/]
-hs					[#]
-dominio				{texto_url}(\.{texto_url})+
-puerto				{dp}{numero}
-ruta				{sl}({texto_url}{sl})*
-fragmento			{hs}?{texto_url}
-protocolo			(http|https|ftp|ftps){dp}{sl}{sl}
-enlace				{protocolo}(www)?{dominio}{puerto}?({ruta}{fragmento}?)?
+dp                  [:]
+sl                  [/]
+hs                  [#]
+dominio             {texto_url}(\.{texto_url})+
+puerto              {dp}{numero}
+ruta                {sl}({texto_url}{sl})*
+fragmento           {hs}?{texto_url}
+protocolo           (http|https|ftp|ftps){dp}{sl}{sl}
+enlace              {protocolo}(www)?{dominio}{puerto}?({ruta}{fragmento}?)?
 
-may					">"
-rss					"<rss"
-version				(version{espacio}*={espacio}*{vers_num})
-encoding			(encoding{espacio}*={espacio}*{qu}{cadena}{qu})
-xml					"<?xml"
-c_xml				"\?>"
-c_rss				"</rss>"
+may                 ">"
+rss                 "<rss"
+version             (version{espacio}*={espacio}*{vers_num})
+encoding            (encoding{espacio}*={espacio}*{qu}{cadena}{qu})
+xml                 "<?xml"
+cxml				"\?>"
 
-defXML				({xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{c_xml})
+defXML				({xml}{espacio}*{version}{espacio}*{encoding}{espacio}*{cxml})
 defRSS				({rss}{espacio}*{version}{espacio}*{may})
 
 %%
-"quit"					{quit(); return 0;}
+"quit"                  {quit(); return 0;}
 "<title>"			    {printf("-Apertura de titulo: %s\n", yytext);}
 "</title>"			    {printf("-Clausura de titulo: %s\n", yytext);}
 "<description>"		    {printf("-Apertura de descripcion: %s\n", yytext);}
@@ -59,16 +58,20 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 "</item>"			    {printf("-Clausura de item: %s\n", yytext);}
 "<image>"			    {printf("-Apertura de imagen: %s\n", yytext);}
 "</image>"			    {printf("-Clausura de imagen: %s\n", yytext);}
+"</rss>"			    {printf("-Clausura de documento RSS: %s\n", yytext);}
 {version}				{printf("-Version: %s\n", yytext);}
-{defRSS}				{printf("-Apertura RSS: %s\n", yytext);}
-{c_rss}					{printf("-Clausura de documento RSS: %s\n", yytext);}
-{defXML}				{printf("-Definicion XML: %s\n", yytext);}
-{enlace}				{printf("-Enlace: %s\n", yytext);}
-{cadena}				{printf("-Cadena de caracteres: %s\n", yytext);}
-{espacio} 				{;}
-"\n"					{;}
-"\t"					{;}
-.						{printf("-Sentencia no reconocida: %s\n", yytext);}
+{xml}					{printf("-Apertura XML: %s\n", yytext);}
+{cxml}					{printf("-Clausura XML: %s\n", yytext);}
+{rss}					{printf("-Apertura RSS: %s\n", yytext);}
+{defRSS}		        {printf("-Apertura de documento RSS: %s\n", yytext);}
+{defXML}			    {printf("-Definicion XML: %s\n", yytext);}
+{enlace}			    {printf("-Enlace: %s\n", yytext);}
+{numero}                {printf("-Numero: %s\n",yytext);}
+{cadena}   {printf("-Cadena de caracteres: %s\n", yytext);}
+{espacio}               {;}
+"\n"                    {;}
+"\t"                    {;}
+.					    {printf("-Sentencia no reconocida: %s\n", yytext);}
 %%
 
 // Abre archivo o permite el ingreso manual
