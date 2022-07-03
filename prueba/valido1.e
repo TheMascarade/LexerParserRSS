@@ -6,17 +6,17 @@
 		<description>Sintaxis y Semantica de Lenguajes de la U.T.N.F.R.Resistencia.</description>
 		<item>
 			<title>Planificacion 2022</title>
-			<link>https://</link>
+			<link>https://google.com</link>
 			<description>Planificacion de catedra, con cronograma de clases y evaluaciones</description>
 		</item>
 		<item>
 			<title>Guia de Trabajos practicos</title>
-			<link>https://</link>
+			<link>https://frre.cvg.utn.ar</link>
 			<description>Guia de ejercicios propuestos a resolver en clase practica</description>
 		</item>
 			<item>
 			<title>Enunciado TPI</title>
-			<link>https://wl</link>
+			<link>https://wl.edu</link>
 			<description>Trabajo practico integrador</description>
 		</item>
 	</channel>

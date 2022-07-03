@@ -15,7 +15,7 @@
 		</image>
 		<item>
 			<title>Planificacion 2022</title>
-			<link>https://</link>
+			<link>https://google.com</link>
 			<description>Planificacion de catedra, con cronograma de clases y evaluaciones</description>
 			<category>Planificacion</category>
 		</item>
@@ -27,8 +27,9 @@
 		</item>
 		<item>
 			<title>Enunciado TPI</title>
-			<link>https://wl</link>
+			<link>https://wl.ar</link>
 			<description>Enunciado del Trabajo práctico integrador</description>
+			<category>Teoria</category>
 		</item>
 	</channel>
 </rss>
