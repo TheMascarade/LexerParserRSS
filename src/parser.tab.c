@@ -58,8 +58,9 @@
 
 	#include <stdio.h>
 	#include "lex.yy.c"
+	FILE *arch_salida;
 
-#line 63 "parser.tab.c"
+#line 64 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -462,12 +463,12 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    28,    28,    31,    32,    35,    38,    39,    40,    41,
-      42,    43,    46,    47,    48,    49,    50,    51,    54,    55,
-      56,    57,    58,    59,    62,    63,    64,    67,    68,    71,
-      72,    73,    74,    75,    76,    79,    82,    83,    86,    87,
-      88,    89,    90,    91,    94,    95,    98,   101,   104,   107,
-     108,   111,   114,   115,   118,   119,   122,   123
+       0,    29,    29,    32,    33,    36,    39,    40,    41,    42,
+      43,    44,    47,    48,    49,    50,    51,    52,    55,    56,
+      57,    58,    59,    60,    63,    64,    65,    68,    69,    72,
+      73,    74,    75,    76,    77,    80,    83,    84,    87,    88,
+      89,    90,    91,    92,    95,    96,    99,   102,   105,   108,
+     109,   112,   115,   116,   119,   120,   123,   124
 };
 #endif
 
@@ -1182,31 +1183,19 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
   switch (yyn)
     {
   case 12: /* canal_obligatorio: titulo link descripcion  */
-#line 46 "parser.y"
-                                                                {sprintf("<h1> %s </h1>\n<a>%s</a>\n<p>%s</p>", (YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.car),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.car),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.car));}
-#line 1188 "parser.tab.c"
-    break;
-
-  case 13: /* canal_obligatorio: titulo descripcion link  */
 #line 47 "parser.y"
-                                                                {sprintf("<p> %s </p>", (YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.car));}
-#line 1194 "parser.tab.c"
-    break;
-
-  case 14: /* canal_obligatorio: link descripcion titulo  */
-#line 48 "parser.y"
-                                                                {sprintf("<a> %s </a>", (YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.car));}
-#line 1200 "parser.tab.c"
+                                                 {fprintf(arch_salida,"<h1> %s </h1>\n<a>%s</a>\n<p>%s</p>", (YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.car),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.car),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.car));}
+#line 1189 "parser.tab.c"
     break;
 
   case 29: /* item_obligatorio: titulo link descripcion  */
-#line 71 "parser.y"
-                                                  {sprintf("<H3>%s</H3>\n<p>%s</p>",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.car),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.car));}
-#line 1206 "parser.tab.c"
+#line 72 "parser.y"
+                                                  {fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.car),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.car));}
+#line 1195 "parser.tab.c"
     break;
 
 
-#line 1210 "parser.tab.c"
+#line 1199 "parser.tab.c"
 
       default: break;
     }
@@ -2902,7 +2891,7 @@ yypdumpstack (yyGLRStack* yystackp)
 
 
 
-#line 125 "parser.y"
+#line 126 "parser.y"
 
 yyerror(char *msg)
 {
@@ -2936,20 +2925,18 @@ int main(int argc, char **argv){
 		else
 		{
 			salida=yyparse();
-			FILE *arch_salida;
-			arch_salida = fopen("salida.html", "w");
-			if (argc>1)
+			arch_salida = fopen("salida.html", "w+");
+			if(argc>1)
+			{
 				yyin = fopen(argv[1], "r");
+			}
 			else
+			{
 				yyin = stdin;
-				fprintf(arch_salida, "%s","<!DOCTYPE html>\n"
-											"<head>\n"
-											"<title>Salida del Parser</title>\n"
-											"</head>\n"
-											"<body>\n");
+				fprintf(arch_salida, "%s","<!DOCTYPE html>\n""<head>\n""<title>Salida del Parser</title>\n""</head>\n""<body>\n");
+			}
 			yyparse();
-			fprintf(arch_salida, "%s","\n</body>\n"
-										"</html>");
+			fprintf(arch_salida, "%s","\n</body>\n""</html>");
 			fclose(arch_salida);
 
 		}

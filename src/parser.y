@@ -1,11 +1,12 @@
 %{
 	#include <stdio.h>
 	#include "lex.yy.c"
+	FILE * arch_salida;
 %}
 %glr-parser // Hace que el parser generado actúe como un APD (con backtracking) y pueda procesar gramáticas ambiguas.
-%define parse.error verbose // Mas informacion de errores.
+%define parse.error detailed // Mas informacion de errores.
 %union{
-	char car[1000];
+	char car;
 }
 %token <car> A_TITULO C_TITULO
 	A_DESC C_DESC
@@ -43,9 +44,11 @@
 		| A_CANAL items canal_opcional canal_obligatorio C_CANAL %dprec 44
 	;
 	canal_obligatorio:
-		titulo link descripcion %dprec 20		{sprintf("<h1> %s </h1>\n<a>%s</a>\n<p>%s</p>", $1,$2,$3);}
-		| titulo descripcion link %dprec 19		{sprintf("<p> %s </p>", $2);}
-		| link descripcion titulo %dprec 18		{sprintf("<a> %s </a>", $1);}
+		titulo link descripcion %dprec 20 {
+			fprintf(arch_salida,"<h1> %s </h1>\n<a>%s</a>\n<p>%s</p>", $1,$2,$3);
+			}
+		| titulo descripcion link %dprec 19
+		| link descripcion titulo %dprec 18
 		| link titulo descripcion %dprec 17
 		| descripcion link titulo %dprec 16
 		| descripcion titulo link %dprec 15
@@ -68,7 +71,9 @@
 		| A_ITEM item_opcional item_obligatorio C_ITEM %dprec 29
 	;
 	item_obligatorio:
-		titulo link descripcion %dprec 35 {sprintf("<H3>%s</H3>\n<p>%s</p>",$1,$3);}
+		titulo link descripcion %dprec 35 {
+			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>",$1,$3);
+			}
 		| titulo descripcion link %dprec 34
 		| link descripcion titulo %dprec 33
 		| link titulo descripcion %dprec 32
@@ -154,21 +159,11 @@ int main(int argc, char **argv){
 		}
 		else
 		{
+			arch_salida = fopen("salida.html", "w+");
+			fprintf(arch_salida, "%s","<!DOCTYPE html>\n""<head>\n""<title>Salida del Parser</title>\n""</head>\n""<body>\n");
+			
 			salida=yyparse();
-			FILE *arch_salida;
-			arch_salida = fopen("salida.html", "w");
-			if (argc>1)
-				yyin = fopen(argv[1], "r");
-			else
-				yyin = stdin;
-				fprintf(arch_salida, "%s","<!DOCTYPE html>\n"
-											"<head>\n"
-											"<title>Salida del Parser</title>\n"
-											"</head>\n"
-											"<body>\n");
-			yyparse();
-			fprintf(arch_salida, "%s","\n</body>\n"
-										"</html>");
+			fprintf(arch_salida, "%s","\n</body>\n""</html>");
 			fclose(arch_salida);
 
 		}
