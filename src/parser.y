@@ -3,7 +3,7 @@
 	#include "lex.yy.c"
 %}
 %glr-parser // Hace que el parser generado actúe como un APD (con backtracking) y pueda procesar gramáticas ambiguas.
-%define parse.error detailed // Mas informacion de errores.
+%define parse.error verbose // Mas informacion de errores.
 %token A_TITULO C_TITULO
 	A_DESC C_DESC
 	A_CAT C_CAT
@@ -39,9 +39,9 @@
 		| A_CANAL items canal_opcional canal_obligatorio C_CANAL %dprec 44
 	;
 	canal_obligatorio:
-		titulo link descripcion %dprec 20
-		| titulo descripcion link %dprec 19
-		| link descripcion titulo %dprec 18
+		titulo link descripcion %dprec 20		{sprintf($$, "<h1> %s </h1>", $1);}
+		| titulo descripcion link %dprec 19		{sprintf($$, "<p> %s </p>", $2);}
+		| link descripcion titulo %dprec 18		{sprintf($$, "<a> %s </a>", $1);}
 		| link titulo descripcion %dprec 17
 		| descripcion link titulo %dprec 16
 		| descripcion titulo link %dprec 15
@@ -56,7 +56,7 @@
 	;
 	items:
 		%empty %dprec 28
-		| item %dprec 8
+		| item %dprec 8			{sprintf($$, "<h3>%s</h3>", $1);}
 		| item items %dprec 7
 	;
 	item:
@@ -69,7 +69,7 @@
 		| link descripcion titulo %dprec 33
 		| link titulo descripcion %dprec 32
 		| descripcion link titulo %dprec 31
-		| descripcion titulo link %dprec 30
+		| descripcion titulo link %dprec 30			{sprintf($$, "<p>%s</p>", $1);}
 	;
 	item_opcional:
 		categoria
@@ -132,7 +132,7 @@ int eval_parse(int salida)
 			printf("Compilado exitoso\n");
 			break;
 		case 1:
-			printf("l: %i\n",yylineno);
+			printf("Linea: %i\n",yylineno);
 			break;
 		case 2:
 			printf("ERROR, falta de memoria");
@@ -151,6 +151,22 @@ int main(int argc, char **argv){
 		else
 		{
 			salida=yyparse();
+			FILE *arch_salida;
+			arch_salida = fopen("salida.html", "w");
+			if (argc>1)
+				yyin = fopen(argv[1], "r");
+			else
+				yyin = stdin;
+				fprintf(arch_salida, "%s","<!DOCTYPE html>\n"
+											"<head>\n"
+											"<title>Salida del Parser</title>\n"
+											"</head>\n"
+											"<body>\n");
+			yyparse();
+			fprintf(arch_salida, "%s","\n</body>\n"
+										"</html>");
+			fclose(arch_salida);
+
 		}
 	}
 	else
@@ -159,6 +175,9 @@ int main(int argc, char **argv){
 		yyin=stdin;
 		salida=yyparse();
 	}
+
+	
+
 	eval_parse(salida);
 	fclose(yyin);
 	return 0;

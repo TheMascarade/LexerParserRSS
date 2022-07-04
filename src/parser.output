@@ -1,0 +1,1554 @@
+Estado 7 conflictos: 7 desplazamiento/reducción, 17 reducción/reducción
+Estado 14 conflictos: 3 desplazamiento/reducción
+Estado 16 conflictos: 4 desplazamiento/reducción, 11 reducción/reducción
+Estado 17 conflictos: 3 desplazamiento/reducción
+Estado 18 conflictos: 6 desplazamiento/reducción, 9 reducción/reducción
+Estado 19 conflictos: 7 reducción/reducción
+Estado 20 conflictos: 2 desplazamiento/reducción, 5 reducción/reducción
+Estado 24 conflictos: 2 desplazamiento/reducción, 5 reducción/reducción
+Estado 25 conflictos: 2 desplazamiento/reducción, 5 reducción/reducción
+Estado 39 conflictos: 2 desplazamiento/reducción, 1 reducción/reducción
+Estado 44 conflictos: 3 desplazamiento/reducción, 5 reducción/reducción
+Estado 47 conflictos: 3 desplazamiento/reducción, 5 reducción/reducción
+
+
+Gramática
+
+    0 $accept: documento $end
+
+    1 documento: defXML defRSS canal C_RSS
+
+    2 defXML: %empty
+    3       | D_XML
+
+    4 defRSS: D_RSS
+
+    5 canal: A_CANAL canal_obligatorio canal_opcional items C_CANAL
+    6      | A_CANAL canal_obligatorio items canal_opcional C_CANAL
+    7      | A_CANAL canal_opcional canal_obligatorio items C_CANAL
+    8      | A_CANAL canal_opcional items canal_obligatorio C_CANAL
+    9      | A_CANAL items canal_obligatorio canal_opcional C_CANAL
+   10      | A_CANAL items canal_opcional canal_obligatorio C_CANAL
+
+   11 canal_obligatorio: titulo link descripcion
+   12                  | titulo descripcion link
+   13                  | link descripcion titulo
+   14                  | link titulo descripcion
+   15                  | descripcion link titulo
+   16                  | descripcion titulo link
+
+   17 canal_opcional: categoria derechos imagen
+   18               | categoria imagen derechos
+   19               | derechos categoria imagen
+   20               | derechos imagen categoria
+   21               | imagen derechos categoria
+   22               | imagen categoria derechos
+
+   23 items: %empty
+   24      | item
+   25      | item items
+
+   26 item: A_ITEM item_obligatorio item_opcional C_ITEM
+   27     | A_ITEM item_opcional item_obligatorio C_ITEM
+
+   28 item_obligatorio: titulo link descripcion
+   29                 | titulo descripcion link
+   30                 | link descripcion titulo
+   31                 | link titulo descripcion
+   32                 | descripcion link titulo
+   33                 | descripcion titulo link
+
+   34 item_opcional: categoria
+
+   35 imagen: %empty
+   36       | A_IMG imagen_obligatorio imagen_opcional C_IMG
+
+   37 imagen_obligatorio: url titulo link
+   38                   | url link titulo
+   39                   | titulo url link
+   40                   | titulo link url
+   41                   | link url titulo
+   42                   | link titulo url
+
+   43 imagen_opcional: alto ancho
+   44                | ancho alto
+
+   45 titulo: A_TITULO CAD C_TITULO
+
+   46 link: A_LINK ENLACE C_LINK
+
+   47 descripcion: A_DESC CAD C_DESC
+
+   48 derechos: %empty
+   49         | A_DER CAD C_DER
+
+   50 url: A_URL ENLACE C_URL
+
+   51 alto: %empty
+   52     | A_ALT NUM C_ALT
+
+   53 ancho: %empty
+   54      | A_ANCHO NUM C_ANCHO
+
+   55 categoria: %empty
+   56          | A_CAT CAD C_CAT
+
+
+Terminales con las reglas donde aparecen
+
+    $end (0) 0
+    error (256)
+    A_TITULO (258) 45
+    C_TITULO (259) 45
+    A_DESC (260) 47
+    C_DESC (261) 47
+    A_CAT (262) 56
+    C_CAT (263) 56
+    A_DER (264) 49
+    C_DER (265) 49
+    A_ALT (266) 52
+    C_ALT (267) 52
+    A_ANCHO (268) 54
+    C_ANCHO (269) 54
+    A_LINK (270) 46
+    C_LINK (271) 46
+    A_URL (272) 50
+    C_URL (273) 50
+    A_CANAL (274) 5 6 7 8 9 10
+    C_CANAL (275) 5 6 7 8 9 10
+    A_ITEM (276) 26 27
+    C_ITEM (277) 26 27
+    A_IMG (278) 36
+    C_IMG (279) 36
+    D_RSS (280) 4
+    C_RSS (281) 1
+    D_XML (282) 3
+    CAD (283) 45 47 49 56
+    ENLACE (284) 46 50
+    NUM (285) 52 54
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (31)
+        on left: 0
+    documento (32)
+        on left: 1
+        on right: 0
+    defXML (33)
+        on left: 2 3
+        on right: 1
+    defRSS (34)
+        on left: 4
+        on right: 1
+    canal (35)
+        on left: 5 6 7 8 9 10
+        on right: 1
+    canal_obligatorio (36)
+        on left: 11 12 13 14 15 16
+        on right: 5 6 7 8 9 10
+    canal_opcional (37)
+        on left: 17 18 19 20 21 22
+        on right: 5 6 7 8 9 10
+    items (38)
+        on left: 23 24 25
+        on right: 5 6 7 8 9 10 25
+    item (39)
+        on left: 26 27
+        on right: 24 25
+    item_obligatorio (40)
+        on left: 28 29 30 31 32 33
+        on right: 26 27
+    item_opcional (41)
+        on left: 34
+        on right: 26 27
+    imagen (42)
+        on left: 35 36
+        on right: 17 18 19 20 21 22
+    imagen_obligatorio (43)
+        on left: 37 38 39 40 41 42
+        on right: 36
+    imagen_opcional (44)
+        on left: 43 44
+        on right: 36
+    titulo (45)
+        on left: 45
+        on right: 11 12 13 14 15 16 28 29 30 31 32 33 37 38 39 40 41 42
+    link (46)
+        on left: 46
+        on right: 11 12 13 14 15 16 28 29 30 31 32 33 37 38 39 40 41 42
+    descripcion (47)
+        on left: 47
+        on right: 11 12 13 14 15 16 28 29 30 31 32 33
+    derechos (48)
+        on left: 48 49
+        on right: 17 18 19 20 21 22
+    url (49)
+        on left: 50
+        on right: 37 38 39 40 41 42
+    alto (50)
+        on left: 51 52
+        on right: 43 44
+    ancho (51)
+        on left: 53 54
+        on right: 43 44
+    categoria (52)
+        on left: 55 56
+        on right: 17 18 19 20 21 22 34
+
+
+Estado 0
+
+    0 $accept: . documento $end
+
+    D_XML  desplazar e ir al estado 1
+
+    $default  reduce usando la regla 2 (defXML)
+
+    documento  ir al estado 2
+    defXML     ir al estado 3
+
+
+Estado 1
+
+    3 defXML: D_XML .
+
+    $default  reduce usando la regla 3 (defXML)
+
+
+Estado 2
+
+    0 $accept: documento . $end
+
+    $end  desplazar e ir al estado 4
+
+
+Estado 3
+
+    1 documento: defXML . defRSS canal C_RSS
+
+    D_RSS  desplazar e ir al estado 5
+
+    defRSS  ir al estado 6
+
+
+Estado 4
+
+    0 $accept: documento $end .
+
+    $default  aceptar
+
+
+Estado 5
+
+    4 defRSS: D_RSS .
+
+    $default  reduce usando la regla 4 (defRSS)
+
+
+Estado 6
+
+    1 documento: defXML defRSS . canal C_RSS
+
+    A_CANAL  desplazar e ir al estado 7
+
+    canal  ir al estado 8
+
+
+Estado 7
+
+    5 canal: A_CANAL . canal_obligatorio canal_opcional items C_CANAL
+    6      | A_CANAL . canal_obligatorio items canal_opcional C_CANAL
+    7      | A_CANAL . canal_opcional canal_obligatorio items C_CANAL
+    8      | A_CANAL . canal_opcional items canal_obligatorio C_CANAL
+    9      | A_CANAL . items canal_obligatorio canal_opcional C_CANAL
+   10      | A_CANAL . items canal_opcional canal_obligatorio C_CANAL
+
+    A_TITULO  desplazar e ir al estado 9
+    A_DESC    desplazar e ir al estado 10
+    A_CAT     desplazar e ir al estado 11
+    A_DER     desplazar e ir al estado 12
+    A_LINK    desplazar e ir al estado 13
+    A_ITEM    desplazar e ir al estado 14
+    A_IMG     desplazar e ir al estado 15
+
+    A_TITULO  [reduce usando la regla 23 (items)]
+    A_TITULO  [reduce usando la regla 35 (imagen)]
+    A_TITULO  [reduce usando la regla 48 (derechos)]
+    A_TITULO  [reduce usando la regla 55 (categoria)]
+    A_DESC    [reduce usando la regla 23 (items)]
+    A_DESC    [reduce usando la regla 35 (imagen)]
+    A_DESC    [reduce usando la regla 48 (derechos)]
+    A_DESC    [reduce usando la regla 55 (categoria)]
+    A_CAT     [reduce usando la regla 23 (items)]
+    A_CAT     [reduce usando la regla 35 (imagen)]
+    A_CAT     [reduce usando la regla 48 (derechos)]
+    A_DER     [reduce usando la regla 23 (items)]
+    A_DER     [reduce usando la regla 35 (imagen)]
+    A_DER     [reduce usando la regla 55 (categoria)]
+    A_LINK    [reduce usando la regla 23 (items)]
+    A_LINK    [reduce usando la regla 35 (imagen)]
+    A_LINK    [reduce usando la regla 48 (derechos)]
+    A_LINK    [reduce usando la regla 55 (categoria)]
+    A_ITEM    [reduce usando la regla 35 (imagen)]
+    A_ITEM    [reduce usando la regla 48 (derechos)]
+    A_ITEM    [reduce usando la regla 55 (categoria)]
+    A_IMG     [reduce usando la regla 23 (items)]
+    A_IMG     [reduce usando la regla 48 (derechos)]
+    A_IMG     [reduce usando la regla 55 (categoria)]
+
+    canal_obligatorio  ir al estado 16
+    canal_opcional     ir al estado 17
+    items              ir al estado 18
+    item               ir al estado 19
+    imagen             ir al estado 20
+    titulo             ir al estado 21
+    link               ir al estado 22
+    descripcion        ir al estado 23
+    derechos           ir al estado 24
+    categoria          ir al estado 25
+
+
+Estado 8
+
+    1 documento: defXML defRSS canal . C_RSS
+
+    C_RSS  desplazar e ir al estado 26
+
+
+Estado 9
+
+   45 titulo: A_TITULO . CAD C_TITULO
+
+    CAD  desplazar e ir al estado 27
+
+
+Estado 10
+
+   47 descripcion: A_DESC . CAD C_DESC
+
+    CAD  desplazar e ir al estado 28
+
+
+Estado 11
+
+   56 categoria: A_CAT . CAD C_CAT
+
+    CAD  desplazar e ir al estado 29
+
+
+Estado 12
+
+   49 derechos: A_DER . CAD C_DER
+
+    CAD  desplazar e ir al estado 30
+
+
+Estado 13
+
+   46 link: A_LINK . ENLACE C_LINK
+
+    ENLACE  desplazar e ir al estado 31
+
+
+Estado 14
+
+   26 item: A_ITEM . item_obligatorio item_opcional C_ITEM
+   27     | A_ITEM . item_opcional item_obligatorio C_ITEM
+
+    A_TITULO  desplazar e ir al estado 9
+    A_DESC    desplazar e ir al estado 10
+    A_CAT     desplazar e ir al estado 11
+    A_LINK    desplazar e ir al estado 13
+
+    A_TITULO  [reduce usando la regla 55 (categoria)]
+    A_DESC    [reduce usando la regla 55 (categoria)]
+    A_LINK    [reduce usando la regla 55 (categoria)]
+
+    item_obligatorio  ir al estado 32
+    item_opcional     ir al estado 33
+    titulo            ir al estado 34
+    link              ir al estado 35
+    descripcion       ir al estado 36
+    categoria         ir al estado 37
+
+
+Estado 15
+
+   36 imagen: A_IMG . imagen_obligatorio imagen_opcional C_IMG
+
+    A_TITULO  desplazar e ir al estado 9
+    A_LINK    desplazar e ir al estado 13
+    A_URL     desplazar e ir al estado 38
+
+    imagen_obligatorio  ir al estado 39
+    titulo              ir al estado 40
+    link                ir al estado 41
+    url                 ir al estado 42
+
+
+Estado 16
+
+    5 canal: A_CANAL canal_obligatorio . canal_opcional items C_CANAL
+    6      | A_CANAL canal_obligatorio . items canal_opcional C_CANAL
+
+    A_CAT   desplazar e ir al estado 11
+    A_DER   desplazar e ir al estado 12
+    A_ITEM  desplazar e ir al estado 14
+    A_IMG   desplazar e ir al estado 15
+
+    A_CAT     [reduce usando la regla 23 (items)]
+    A_CAT     [reduce usando la regla 35 (imagen)]
+    A_CAT     [reduce usando la regla 48 (derechos)]
+    A_DER     [reduce usando la regla 23 (items)]
+    A_DER     [reduce usando la regla 35 (imagen)]
+    A_DER     [reduce usando la regla 55 (categoria)]
+    C_CANAL   reduce usando la regla 23 (items)
+    C_CANAL   [reduce usando la regla 35 (imagen)]
+    C_CANAL   [reduce usando la regla 48 (derechos)]
+    C_CANAL   [reduce usando la regla 55 (categoria)]
+    A_ITEM    [reduce usando la regla 35 (imagen)]
+    A_ITEM    [reduce usando la regla 48 (derechos)]
+    A_ITEM    [reduce usando la regla 55 (categoria)]
+    A_IMG     [reduce usando la regla 23 (items)]
+    A_IMG     [reduce usando la regla 48 (derechos)]
+    A_IMG     [reduce usando la regla 55 (categoria)]
+    $default  reduce usando la regla 23 (items)
+
+    canal_opcional  ir al estado 43
+    items           ir al estado 44
+    item            ir al estado 19
+    imagen          ir al estado 20
+    derechos        ir al estado 24
+    categoria       ir al estado 25
+
+
+Estado 17
+
+    7 canal: A_CANAL canal_opcional . canal_obligatorio items C_CANAL
+    8      | A_CANAL canal_opcional . items canal_obligatorio C_CANAL
+
+    A_TITULO  desplazar e ir al estado 9
+    A_DESC    desplazar e ir al estado 10
+    A_LINK    desplazar e ir al estado 13
+    A_ITEM    desplazar e ir al estado 14
+
+    A_TITULO  [reduce usando la regla 23 (items)]
+    A_DESC    [reduce usando la regla 23 (items)]
+    A_LINK    [reduce usando la regla 23 (items)]
+
+    canal_obligatorio  ir al estado 45
+    items              ir al estado 46
+    item               ir al estado 19
+    titulo             ir al estado 21
+    link               ir al estado 22
+    descripcion        ir al estado 23
+
+
+Estado 18
+
+    9 canal: A_CANAL items . canal_obligatorio canal_opcional C_CANAL
+   10      | A_CANAL items . canal_opcional canal_obligatorio C_CANAL
+
+    A_TITULO  desplazar e ir al estado 9
+    A_DESC    desplazar e ir al estado 10
+    A_CAT     desplazar e ir al estado 11
+    A_DER     desplazar e ir al estado 12
+    A_LINK    desplazar e ir al estado 13
+    A_IMG     desplazar e ir al estado 15
+
+    A_TITULO  [reduce usando la regla 35 (imagen)]
+    A_TITULO  [reduce usando la regla 48 (derechos)]
+    A_TITULO  [reduce usando la regla 55 (categoria)]
+    A_DESC    [reduce usando la regla 35 (imagen)]
+    A_DESC    [reduce usando la regla 48 (derechos)]
+    A_DESC    [reduce usando la regla 55 (categoria)]
+    A_CAT     [reduce usando la regla 35 (imagen)]
+    A_CAT     [reduce usando la regla 48 (derechos)]
+    A_DER     [reduce usando la regla 35 (imagen)]
+    A_DER     [reduce usando la regla 55 (categoria)]
+    A_LINK    [reduce usando la regla 35 (imagen)]
+    A_LINK    [reduce usando la regla 48 (derechos)]
+    A_LINK    [reduce usando la regla 55 (categoria)]
+    A_IMG     [reduce usando la regla 48 (derechos)]
+    A_IMG     [reduce usando la regla 55 (categoria)]
+
+    canal_obligatorio  ir al estado 47
+    canal_opcional     ir al estado 48
+    imagen             ir al estado 20
+    titulo             ir al estado 21
+    link               ir al estado 22
+    descripcion        ir al estado 23
+    derechos           ir al estado 24
+    categoria          ir al estado 25
+
+
+Estado 19
+
+   24 items: item .
+   25      | item . items
+
+    A_ITEM  desplazar e ir al estado 14
+
+    A_TITULO  reduce usando la regla 23 (items)
+    A_TITULO  [reduce usando la regla 24 (items)]
+    A_DESC    reduce usando la regla 23 (items)
+    A_DESC    [reduce usando la regla 24 (items)]
+    A_CAT     reduce usando la regla 23 (items)
+    A_CAT     [reduce usando la regla 24 (items)]
+    A_DER     reduce usando la regla 23 (items)
+    A_DER     [reduce usando la regla 24 (items)]
+    A_LINK    reduce usando la regla 23 (items)
+    A_LINK    [reduce usando la regla 24 (items)]
+    C_CANAL   reduce usando la regla 23 (items)
+    C_CANAL   [reduce usando la regla 24 (items)]
+    A_IMG     reduce usando la regla 23 (items)
+    A_IMG     [reduce usando la regla 24 (items)]
+    $default  reduce usando la regla 23 (items)
+
+    items  ir al estado 49
+    item   ir al estado 19
+
+
+Estado 20
+
+   21 canal_opcional: imagen . derechos categoria
+   22               | imagen . categoria derechos
+
+    A_CAT  desplazar e ir al estado 11
+    A_DER  desplazar e ir al estado 12
+
+    A_TITULO  reduce usando la regla 48 (derechos)
+    A_TITULO  [reduce usando la regla 55 (categoria)]
+    A_DESC    reduce usando la regla 48 (derechos)
+    A_DESC    [reduce usando la regla 55 (categoria)]
+    A_CAT     [reduce usando la regla 48 (derechos)]
+    A_DER     [reduce usando la regla 55 (categoria)]
+    A_LINK    reduce usando la regla 48 (derechos)
+    A_LINK    [reduce usando la regla 55 (categoria)]
+    C_CANAL   reduce usando la regla 48 (derechos)
+    C_CANAL   [reduce usando la regla 55 (categoria)]
+    A_ITEM    reduce usando la regla 48 (derechos)
+    A_ITEM    [reduce usando la regla 55 (categoria)]
+    $default  reduce usando la regla 48 (derechos)
+
+    derechos   ir al estado 50
+    categoria  ir al estado 51
+
+
+Estado 21
+
+   11 canal_obligatorio: titulo . link descripcion
+   12                  | titulo . descripcion link
+
+    A_DESC  desplazar e ir al estado 10
+    A_LINK  desplazar e ir al estado 13
+
+    link         ir al estado 52
+    descripcion  ir al estado 53
+
+
+Estado 22
+
+   13 canal_obligatorio: link . descripcion titulo
+   14                  | link . titulo descripcion
+
+    A_TITULO  desplazar e ir al estado 9
+    A_DESC    desplazar e ir al estado 10
+
+    titulo       ir al estado 54
+    descripcion  ir al estado 55
+
+
+Estado 23
+
+   15 canal_obligatorio: descripcion . link titulo
+   16                  | descripcion . titulo link
+
+    A_TITULO  desplazar e ir al estado 9
+    A_LINK    desplazar e ir al estado 13
+
+    titulo  ir al estado 56
+    link    ir al estado 57
+
+
+Estado 24
+
+   19 canal_opcional: derechos . categoria imagen
+   20               | derechos . imagen categoria
+
+    A_CAT  desplazar e ir al estado 11
+    A_IMG  desplazar e ir al estado 15
+
+    A_TITULO  reduce usando la regla 35 (imagen)
+    A_TITULO  [reduce usando la regla 55 (categoria)]
+    A_DESC    reduce usando la regla 35 (imagen)
+    A_DESC    [reduce usando la regla 55 (categoria)]
+    A_CAT     [reduce usando la regla 35 (imagen)]
+    A_LINK    reduce usando la regla 35 (imagen)
+    A_LINK    [reduce usando la regla 55 (categoria)]
+    C_CANAL   reduce usando la regla 35 (imagen)
+    C_CANAL   [reduce usando la regla 55 (categoria)]
+    A_ITEM    reduce usando la regla 35 (imagen)
+    A_ITEM    [reduce usando la regla 55 (categoria)]
+    A_IMG     [reduce usando la regla 55 (categoria)]
+    $default  reduce usando la regla 35 (imagen)
+
+    imagen     ir al estado 58
+    categoria  ir al estado 59
+
+
+Estado 25
+
+   17 canal_opcional: categoria . derechos imagen
+   18               | categoria . imagen derechos
+
+    A_DER  desplazar e ir al estado 12
+    A_IMG  desplazar e ir al estado 15
+
+    A_TITULO  reduce usando la regla 35 (imagen)
+    A_TITULO  [reduce usando la regla 48 (derechos)]
+    A_DESC    reduce usando la regla 35 (imagen)
+    A_DESC    [reduce usando la regla 48 (derechos)]
+    A_DER     [reduce usando la regla 35 (imagen)]
+    A_LINK    reduce usando la regla 35 (imagen)
+    A_LINK    [reduce usando la regla 48 (derechos)]
+    C_CANAL   reduce usando la regla 35 (imagen)
+    C_CANAL   [reduce usando la regla 48 (derechos)]
+    A_ITEM    reduce usando la regla 35 (imagen)
+    A_ITEM    [reduce usando la regla 48 (derechos)]
+    A_IMG     [reduce usando la regla 48 (derechos)]
+    $default  reduce usando la regla 35 (imagen)
+
+    imagen    ir al estado 60
+    derechos  ir al estado 61
+
+
+Estado 26
+
+    1 documento: defXML defRSS canal C_RSS .
+
+    $default  reduce usando la regla 1 (documento)
+
+
+Estado 27
+
+   45 titulo: A_TITULO CAD . C_TITULO
+
+    C_TITULO  desplazar e ir al estado 62
+
+
+Estado 28
+
+   47 descripcion: A_DESC CAD . C_DESC
+
+    C_DESC  desplazar e ir al estado 63
+
+
+Estado 29
+
+   56 categoria: A_CAT CAD . C_CAT
+
+    C_CAT  desplazar e ir al estado 64
+
+
+Estado 30
+
+   49 derechos: A_DER CAD . C_DER
+
+    C_DER  desplazar e ir al estado 65
+
+
+Estado 31
+
+   46 link: A_LINK ENLACE . C_LINK
+
+    C_LINK  desplazar e ir al estado 66
+
+
+Estado 32
+
+   26 item: A_ITEM item_obligatorio . item_opcional C_ITEM
+
+    A_CAT  desplazar e ir al estado 11
+
+    $default  reduce usando la regla 55 (categoria)
+
+    item_opcional  ir al estado 67
+    categoria      ir al estado 37
+
+
+Estado 33
+
+   27 item: A_ITEM item_opcional . item_obligatorio C_ITEM
+
+    A_TITULO  desplazar e ir al estado 9
+    A_DESC    desplazar e ir al estado 10
+    A_LINK    desplazar e ir al estado 13
+
+    item_obligatorio  ir al estado 68
+    titulo            ir al estado 34
+    link              ir al estado 35
+    descripcion       ir al estado 36
+
+
+Estado 34
+
+   28 item_obligatorio: titulo . link descripcion
+   29                 | titulo . descripcion link
+
+    A_DESC  desplazar e ir al estado 10
+    A_LINK  desplazar e ir al estado 13
+
+    link         ir al estado 69
+    descripcion  ir al estado 70
+
+
+Estado 35
+
+   30 item_obligatorio: link . descripcion titulo
+   31                 | link . titulo descripcion
+
+    A_TITULO  desplazar e ir al estado 9
+    A_DESC    desplazar e ir al estado 10
+
+    titulo       ir al estado 71
+    descripcion  ir al estado 72
+
+
+Estado 36
+
+   32 item_obligatorio: descripcion . link titulo
+   33                 | descripcion . titulo link
+
+    A_TITULO  desplazar e ir al estado 9
+    A_LINK    desplazar e ir al estado 13
+
+    titulo  ir al estado 73
+    link    ir al estado 74
+
+
+Estado 37
+
+   34 item_opcional: categoria .
+
+    $default  reduce usando la regla 34 (item_opcional)
+
+
+Estado 38
+
+   50 url: A_URL . ENLACE C_URL
+
+    ENLACE  desplazar e ir al estado 75
+
+
+Estado 39
+
+   36 imagen: A_IMG imagen_obligatorio . imagen_opcional C_IMG
+
+    A_ALT    desplazar e ir al estado 76
+    A_ANCHO  desplazar e ir al estado 77
+
+    A_ALT     [reduce usando la regla 53 (ancho)]
+    A_ANCHO   [reduce usando la regla 51 (alto)]
+    C_IMG     reduce usando la regla 51 (alto)
+    C_IMG     [reduce usando la regla 53 (ancho)]
+    $default  reduce usando la regla 51 (alto)
+
+    imagen_opcional  ir al estado 78
+    alto             ir al estado 79
+    ancho            ir al estado 80
+
+
+Estado 40
+
+   39 imagen_obligatorio: titulo . url link
+   40                   | titulo . link url
+
+    A_LINK  desplazar e ir al estado 13
+    A_URL   desplazar e ir al estado 38
+
+    link  ir al estado 81
+    url   ir al estado 82
+
+
+Estado 41
+
+   41 imagen_obligatorio: link . url titulo
+   42                   | link . titulo url
+
+    A_TITULO  desplazar e ir al estado 9
+    A_URL     desplazar e ir al estado 38
+
+    titulo  ir al estado 83
+    url     ir al estado 84
+
+
+Estado 42
+
+   37 imagen_obligatorio: url . titulo link
+   38                   | url . link titulo
+
+    A_TITULO  desplazar e ir al estado 9
+    A_LINK    desplazar e ir al estado 13
+
+    titulo  ir al estado 85
+    link    ir al estado 86
+
+
+Estado 43
+
+    5 canal: A_CANAL canal_obligatorio canal_opcional . items C_CANAL
+
+    A_ITEM  desplazar e ir al estado 14
+
+    $default  reduce usando la regla 23 (items)
+
+    items  ir al estado 87
+    item   ir al estado 19
+
+
+Estado 44
+
+    6 canal: A_CANAL canal_obligatorio items . canal_opcional C_CANAL
+
+    A_CAT  desplazar e ir al estado 11
+    A_DER  desplazar e ir al estado 12
+    A_IMG  desplazar e ir al estado 15
+
+    A_CAT     [reduce usando la regla 35 (imagen)]
+    A_CAT     [reduce usando la regla 48 (derechos)]
+    A_DER     [reduce usando la regla 35 (imagen)]
+    A_DER     [reduce usando la regla 55 (categoria)]
+    C_CANAL   reduce usando la regla 35 (imagen)
+    C_CANAL   [reduce usando la regla 48 (derechos)]
+    C_CANAL   [reduce usando la regla 55 (categoria)]
+    A_IMG     [reduce usando la regla 48 (derechos)]
+    A_IMG     [reduce usando la regla 55 (categoria)]
+    $default  reduce usando la regla 35 (imagen)
+
+    canal_opcional  ir al estado 88
+    imagen          ir al estado 20
+    derechos        ir al estado 24
+    categoria       ir al estado 25
+
+
+Estado 45
+
+    7 canal: A_CANAL canal_opcional canal_obligatorio . items C_CANAL
+
+    A_ITEM  desplazar e ir al estado 14
+
+    $default  reduce usando la regla 23 (items)
+
+    items  ir al estado 89
+    item   ir al estado 19
+
+
+Estado 46
+
+    8 canal: A_CANAL canal_opcional items . canal_obligatorio C_CANAL
+
+    A_TITULO  desplazar e ir al estado 9
+    A_DESC    desplazar e ir al estado 10
+    A_LINK    desplazar e ir al estado 13
+
+    canal_obligatorio  ir al estado 90
+    titulo             ir al estado 21
+    link               ir al estado 22
+    descripcion        ir al estado 23
+
+
+Estado 47
+
+    9 canal: A_CANAL items canal_obligatorio . canal_opcional C_CANAL
+
+    A_CAT  desplazar e ir al estado 11
+    A_DER  desplazar e ir al estado 12
+    A_IMG  desplazar e ir al estado 15
+
+    A_CAT     [reduce usando la regla 35 (imagen)]
+    A_CAT     [reduce usando la regla 48 (derechos)]
+    A_DER     [reduce usando la regla 35 (imagen)]
+    A_DER     [reduce usando la regla 55 (categoria)]
+    C_CANAL   reduce usando la regla 35 (imagen)
+    C_CANAL   [reduce usando la regla 48 (derechos)]
+    C_CANAL   [reduce usando la regla 55 (categoria)]
+    A_IMG     [reduce usando la regla 48 (derechos)]
+    A_IMG     [reduce usando la regla 55 (categoria)]
+    $default  reduce usando la regla 35 (imagen)
+
+    canal_opcional  ir al estado 91
+    imagen          ir al estado 20
+    derechos        ir al estado 24
+    categoria       ir al estado 25
+
+
+Estado 48
+
+   10 canal: A_CANAL items canal_opcional . canal_obligatorio C_CANAL
+
+    A_TITULO  desplazar e ir al estado 9
+    A_DESC    desplazar e ir al estado 10
+    A_LINK    desplazar e ir al estado 13
+
+    canal_obligatorio  ir al estado 92
+    titulo             ir al estado 21
+    link               ir al estado 22
+    descripcion        ir al estado 23
+
+
+Estado 49
+
+   25 items: item items .
+
+    $default  reduce usando la regla 25 (items)
+
+
+Estado 50
+
+   21 canal_opcional: imagen derechos . categoria
+
+    A_CAT  desplazar e ir al estado 11
+
+    $default  reduce usando la regla 55 (categoria)
+
+    categoria  ir al estado 93
+
+
+Estado 51
+
+   22 canal_opcional: imagen categoria . derechos
+
+    A_DER  desplazar e ir al estado 12
+
+    $default  reduce usando la regla 48 (derechos)
+
+    derechos  ir al estado 94
+
+
+Estado 52
+
+   11 canal_obligatorio: titulo link . descripcion
+
+    A_DESC  desplazar e ir al estado 10
+
+    descripcion  ir al estado 95
+
+
+Estado 53
+
+   12 canal_obligatorio: titulo descripcion . link
+
+    A_LINK  desplazar e ir al estado 13
+
+    link  ir al estado 96
+
+
+Estado 54
+
+   14 canal_obligatorio: link titulo . descripcion
+
+    A_DESC  desplazar e ir al estado 10
+
+    descripcion  ir al estado 97
+
+
+Estado 55
+
+   13 canal_obligatorio: link descripcion . titulo
+
+    A_TITULO  desplazar e ir al estado 9
+
+    titulo  ir al estado 98
+
+
+Estado 56
+
+   16 canal_obligatorio: descripcion titulo . link
+
+    A_LINK  desplazar e ir al estado 13
+
+    link  ir al estado 99
+
+
+Estado 57
+
+   15 canal_obligatorio: descripcion link . titulo
+
+    A_TITULO  desplazar e ir al estado 9
+
+    titulo  ir al estado 100
+
+
+Estado 58
+
+   20 canal_opcional: derechos imagen . categoria
+
+    A_CAT  desplazar e ir al estado 11
+
+    $default  reduce usando la regla 55 (categoria)
+
+    categoria  ir al estado 101
+
+
+Estado 59
+
+   19 canal_opcional: derechos categoria . imagen
+
+    A_IMG  desplazar e ir al estado 15
+
+    $default  reduce usando la regla 35 (imagen)
+
+    imagen  ir al estado 102
+
+
+Estado 60
+
+   18 canal_opcional: categoria imagen . derechos
+
+    A_DER  desplazar e ir al estado 12
+
+    $default  reduce usando la regla 48 (derechos)
+
+    derechos  ir al estado 103
+
+
+Estado 61
+
+   17 canal_opcional: categoria derechos . imagen
+
+    A_IMG  desplazar e ir al estado 15
+
+    $default  reduce usando la regla 35 (imagen)
+
+    imagen  ir al estado 104
+
+
+Estado 62
+
+   45 titulo: A_TITULO CAD C_TITULO .
+
+    $default  reduce usando la regla 45 (titulo)
+
+
+Estado 63
+
+   47 descripcion: A_DESC CAD C_DESC .
+
+    $default  reduce usando la regla 47 (descripcion)
+
+
+Estado 64
+
+   56 categoria: A_CAT CAD C_CAT .
+
+    $default  reduce usando la regla 56 (categoria)
+
+
+Estado 65
+
+   49 derechos: A_DER CAD C_DER .
+
+    $default  reduce usando la regla 49 (derechos)
+
+
+Estado 66
+
+   46 link: A_LINK ENLACE C_LINK .
+
+    $default  reduce usando la regla 46 (link)
+
+
+Estado 67
+
+   26 item: A_ITEM item_obligatorio item_opcional . C_ITEM
+
+    C_ITEM  desplazar e ir al estado 105
+
+
+Estado 68
+
+   27 item: A_ITEM item_opcional item_obligatorio . C_ITEM
+
+    C_ITEM  desplazar e ir al estado 106
+
+
+Estado 69
+
+   28 item_obligatorio: titulo link . descripcion
+
+    A_DESC  desplazar e ir al estado 10
+
+    descripcion  ir al estado 107
+
+
+Estado 70
+
+   29 item_obligatorio: titulo descripcion . link
+
+    A_LINK  desplazar e ir al estado 13
+
+    link  ir al estado 108
+
+
+Estado 71
+
+   31 item_obligatorio: link titulo . descripcion
+
+    A_DESC  desplazar e ir al estado 10
+
+    descripcion  ir al estado 109
+
+
+Estado 72
+
+   30 item_obligatorio: link descripcion . titulo
+
+    A_TITULO  desplazar e ir al estado 9
+
+    titulo  ir al estado 110
+
+
+Estado 73
+
+   33 item_obligatorio: descripcion titulo . link
+
+    A_LINK  desplazar e ir al estado 13
+
+    link  ir al estado 111
+
+
+Estado 74
+
+   32 item_obligatorio: descripcion link . titulo
+
+    A_TITULO  desplazar e ir al estado 9
+
+    titulo  ir al estado 112
+
+
+Estado 75
+
+   50 url: A_URL ENLACE . C_URL
+
+    C_URL  desplazar e ir al estado 113
+
+
+Estado 76
+
+   52 alto: A_ALT . NUM C_ALT
+
+    NUM  desplazar e ir al estado 114
+
+
+Estado 77
+
+   54 ancho: A_ANCHO . NUM C_ANCHO
+
+    NUM  desplazar e ir al estado 115
+
+
+Estado 78
+
+   36 imagen: A_IMG imagen_obligatorio imagen_opcional . C_IMG
+
+    C_IMG  desplazar e ir al estado 116
+
+
+Estado 79
+
+   43 imagen_opcional: alto . ancho
+
+    A_ANCHO  desplazar e ir al estado 77
+
+    $default  reduce usando la regla 53 (ancho)
+
+    ancho  ir al estado 117
+
+
+Estado 80
+
+   44 imagen_opcional: ancho . alto
+
+    A_ALT  desplazar e ir al estado 76
+
+    $default  reduce usando la regla 51 (alto)
+
+    alto  ir al estado 118
+
+
+Estado 81
+
+   40 imagen_obligatorio: titulo link . url
+
+    A_URL  desplazar e ir al estado 38
+
+    url  ir al estado 119
+
+
+Estado 82
+
+   39 imagen_obligatorio: titulo url . link
+
+    A_LINK  desplazar e ir al estado 13
+
+    link  ir al estado 120
+
+
+Estado 83
+
+   42 imagen_obligatorio: link titulo . url
+
+    A_URL  desplazar e ir al estado 38
+
+    url  ir al estado 121
+
+
+Estado 84
+
+   41 imagen_obligatorio: link url . titulo
+
+    A_TITULO  desplazar e ir al estado 9
+
+    titulo  ir al estado 122
+
+
+Estado 85
+
+   37 imagen_obligatorio: url titulo . link
+
+    A_LINK  desplazar e ir al estado 13
+
+    link  ir al estado 123
+
+
+Estado 86
+
+   38 imagen_obligatorio: url link . titulo
+
+    A_TITULO  desplazar e ir al estado 9
+
+    titulo  ir al estado 124
+
+
+Estado 87
+
+    5 canal: A_CANAL canal_obligatorio canal_opcional items . C_CANAL
+
+    C_CANAL  desplazar e ir al estado 125
+
+
+Estado 88
+
+    6 canal: A_CANAL canal_obligatorio items canal_opcional . C_CANAL
+
+    C_CANAL  desplazar e ir al estado 126
+
+
+Estado 89
+
+    7 canal: A_CANAL canal_opcional canal_obligatorio items . C_CANAL
+
+    C_CANAL  desplazar e ir al estado 127
+
+
+Estado 90
+
+    8 canal: A_CANAL canal_opcional items canal_obligatorio . C_CANAL
+
+    C_CANAL  desplazar e ir al estado 128
+
+
+Estado 91
+
+    9 canal: A_CANAL items canal_obligatorio canal_opcional . C_CANAL
+
+    C_CANAL  desplazar e ir al estado 129
+
+
+Estado 92
+
+   10 canal: A_CANAL items canal_opcional canal_obligatorio . C_CANAL
+
+    C_CANAL  desplazar e ir al estado 130
+
+
+Estado 93
+
+   21 canal_opcional: imagen derechos categoria .
+
+    $default  reduce usando la regla 21 (canal_opcional)
+
+
+Estado 94
+
+   22 canal_opcional: imagen categoria derechos .
+
+    $default  reduce usando la regla 22 (canal_opcional)
+
+
+Estado 95
+
+   11 canal_obligatorio: titulo link descripcion .
+
+    $default  reduce usando la regla 11 (canal_obligatorio)
+
+
+Estado 96
+
+   12 canal_obligatorio: titulo descripcion link .
+
+    $default  reduce usando la regla 12 (canal_obligatorio)
+
+
+Estado 97
+
+   14 canal_obligatorio: link titulo descripcion .
+
+    $default  reduce usando la regla 14 (canal_obligatorio)
+
+
+Estado 98
+
+   13 canal_obligatorio: link descripcion titulo .
+
+    $default  reduce usando la regla 13 (canal_obligatorio)
+
+
+Estado 99
+
+   16 canal_obligatorio: descripcion titulo link .
+
+    $default  reduce usando la regla 16 (canal_obligatorio)
+
+
+Estado 100
+
+   15 canal_obligatorio: descripcion link titulo .
+
+    $default  reduce usando la regla 15 (canal_obligatorio)
+
+
+Estado 101
+
+   20 canal_opcional: derechos imagen categoria .
+
+    $default  reduce usando la regla 20 (canal_opcional)
+
+
+Estado 102
+
+   19 canal_opcional: derechos categoria imagen .
+
+    $default  reduce usando la regla 19 (canal_opcional)
+
+
+Estado 103
+
+   18 canal_opcional: categoria imagen derechos .
+
+    $default  reduce usando la regla 18 (canal_opcional)
+
+
+Estado 104
+
+   17 canal_opcional: categoria derechos imagen .
+
+    $default  reduce usando la regla 17 (canal_opcional)
+
+
+Estado 105
+
+   26 item: A_ITEM item_obligatorio item_opcional C_ITEM .
+
+    $default  reduce usando la regla 26 (item)
+
+
+Estado 106
+
+   27 item: A_ITEM item_opcional item_obligatorio C_ITEM .
+
+    $default  reduce usando la regla 27 (item)
+
+
+Estado 107
+
+   28 item_obligatorio: titulo link descripcion .
+
+    $default  reduce usando la regla 28 (item_obligatorio)
+
+
+Estado 108
+
+   29 item_obligatorio: titulo descripcion link .
+
+    $default  reduce usando la regla 29 (item_obligatorio)
+
+
+Estado 109
+
+   31 item_obligatorio: link titulo descripcion .
+
+    $default  reduce usando la regla 31 (item_obligatorio)
+
+
+Estado 110
+
+   30 item_obligatorio: link descripcion titulo .
+
+    $default  reduce usando la regla 30 (item_obligatorio)
+
+
+Estado 111
+
+   33 item_obligatorio: descripcion titulo link .
+
+    $default  reduce usando la regla 33 (item_obligatorio)
+
+
+Estado 112
+
+   32 item_obligatorio: descripcion link titulo .
+
+    $default  reduce usando la regla 32 (item_obligatorio)
+
+
+Estado 113
+
+   50 url: A_URL ENLACE C_URL .
+
+    $default  reduce usando la regla 50 (url)
+
+
+Estado 114
+
+   52 alto: A_ALT NUM . C_ALT
+
+    C_ALT  desplazar e ir al estado 131
+
+
+Estado 115
+
+   54 ancho: A_ANCHO NUM . C_ANCHO
+
+    C_ANCHO  desplazar e ir al estado 132
+
+
+Estado 116
+
+   36 imagen: A_IMG imagen_obligatorio imagen_opcional C_IMG .
+
+    $default  reduce usando la regla 36 (imagen)
+
+
+Estado 117
+
+   43 imagen_opcional: alto ancho .
+
+    $default  reduce usando la regla 43 (imagen_opcional)
+
+
+Estado 118
+
+   44 imagen_opcional: ancho alto .
+
+    $default  reduce usando la regla 44 (imagen_opcional)
+
+
+Estado 119
+
+   40 imagen_obligatorio: titulo link url .
+
+    $default  reduce usando la regla 40 (imagen_obligatorio)
+
+
+Estado 120
+
+   39 imagen_obligatorio: titulo url link .
+
+    $default  reduce usando la regla 39 (imagen_obligatorio)
+
+
+Estado 121
+
+   42 imagen_obligatorio: link titulo url .
+
+    $default  reduce usando la regla 42 (imagen_obligatorio)
+
+
+Estado 122
+
+   41 imagen_obligatorio: link url titulo .
+
+    $default  reduce usando la regla 41 (imagen_obligatorio)
+
+
+Estado 123
+
+   37 imagen_obligatorio: url titulo link .
+
+    $default  reduce usando la regla 37 (imagen_obligatorio)
+
+
+Estado 124
+
+   38 imagen_obligatorio: url link titulo .
+
+    $default  reduce usando la regla 38 (imagen_obligatorio)
+
+
+Estado 125
+
+    5 canal: A_CANAL canal_obligatorio canal_opcional items C_CANAL .
+
+    $default  reduce usando la regla 5 (canal)
+
+
+Estado 126
+
+    6 canal: A_CANAL canal_obligatorio items canal_opcional C_CANAL .
+
+    $default  reduce usando la regla 6 (canal)
+
+
+Estado 127
+
+    7 canal: A_CANAL canal_opcional canal_obligatorio items C_CANAL .
+
+    $default  reduce usando la regla 7 (canal)
+
+
+Estado 128
+
+    8 canal: A_CANAL canal_opcional items canal_obligatorio C_CANAL .
+
+    $default  reduce usando la regla 8 (canal)
+
+
+Estado 129
+
+    9 canal: A_CANAL items canal_obligatorio canal_opcional C_CANAL .
+
+    $default  reduce usando la regla 9 (canal)
+
+
+Estado 130
+
+   10 canal: A_CANAL items canal_opcional canal_obligatorio C_CANAL .
+
+    $default  reduce usando la regla 10 (canal)
+
+
+Estado 131
+
+   52 alto: A_ALT NUM C_ALT .
+
+    $default  reduce usando la regla 52 (alto)
+
+
+Estado 132
+
+   54 ancho: A_ANCHO NUM C_ANCHO .
+
+    $default  reduce usando la regla 54 (ancho)

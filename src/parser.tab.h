@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.7.6.  */
+/* A Bison parser, made by GNU Bison 3.5.1.  */
 
 /* Skeleton interface for Bison GLR parsers in C
 
-   Copyright (C) 2002-2015, 2018-2021 Free Software Foundation, Inc.
+   Copyright (C) 2002-2015, 2018-2020 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -34,51 +34,46 @@
 # define YY_YY_PARSER_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+# define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int yydebug;
 #endif
 
-/* Token kinds.  */
+/* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
   {
-    YYEMPTY = -2,
-    YYEOF = 0,                     /* "end of file"  */
-    YYerror = 256,                 /* error  */
-    YYUNDEF = 257,                 /* "invalid token"  */
-    A_TITULO = 258,                /* A_TITULO  */
-    C_TITULO = 259,                /* C_TITULO  */
-    A_DESC = 260,                  /* A_DESC  */
-    C_DESC = 261,                  /* C_DESC  */
-    A_CAT = 262,                   /* A_CAT  */
-    C_CAT = 263,                   /* C_CAT  */
-    A_DER = 264,                   /* A_DER  */
-    C_DER = 265,                   /* C_DER  */
-    A_ALT = 266,                   /* A_ALT  */
-    C_ALT = 267,                   /* C_ALT  */
-    A_ANCHO = 268,                 /* A_ANCHO  */
-    C_ANCHO = 269,                 /* C_ANCHO  */
-    A_LINK = 270,                  /* A_LINK  */
-    C_LINK = 271,                  /* C_LINK  */
-    A_URL = 272,                   /* A_URL  */
-    C_URL = 273,                   /* C_URL  */
-    A_CANAL = 274,                 /* A_CANAL  */
-    C_CANAL = 275,                 /* C_CANAL  */
-    A_ITEM = 276,                  /* A_ITEM  */
-    C_ITEM = 277,                  /* C_ITEM  */
-    A_IMG = 278,                   /* A_IMG  */
-    C_IMG = 279,                   /* C_IMG  */
-    D_RSS = 280,                   /* D_RSS  */
-    C_RSS = 281,                   /* C_RSS  */
-    D_XML = 282,                   /* D_XML  */
-    CAD = 283,                     /* CAD  */
-    ENLACE = 284,                  /* ENLACE  */
-    NUM = 285                      /* NUM  */
+    A_TITULO = 258,
+    C_TITULO = 259,
+    A_DESC = 260,
+    C_DESC = 261,
+    A_CAT = 262,
+    C_CAT = 263,
+    A_DER = 264,
+    C_DER = 265,
+    A_ALT = 266,
+    C_ALT = 267,
+    A_ANCHO = 268,
+    C_ANCHO = 269,
+    A_LINK = 270,
+    C_LINK = 271,
+    A_URL = 272,
+    C_URL = 273,
+    A_CANAL = 274,
+    C_CANAL = 275,
+    A_ITEM = 276,
+    C_ITEM = 277,
+    A_IMG = 278,
+    C_IMG = 279,
+    D_RSS = 280,
+    C_RSS = 281,
+    D_XML = 282,
+    CAD = 283,
+    ENLACE = 284,
+    NUM = 285
   };
-  typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
