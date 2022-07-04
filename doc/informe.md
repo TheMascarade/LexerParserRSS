@@ -46,6 +46,14 @@
 
     4. [Tokens Utilizados](tokens-utilizados)
 
+4. [Parser](#parser)
+5. [Funciones auxiliares](#funciones-auxiliares)
+6. [Obtención del intérprete](#obtencion-del-interprete)
+7. [Ejecución del intérprete](#ejecucion-del-interprete)
+8. [Ejemplos](#ejemplos)
+9. [Conclusiones](#conclusiones)
+10. [Referencias](#referencias)
+
 <div style="page-break-after: always"></div>
 
 ## Introducción
@@ -62,76 +70,73 @@ Se utilizaron conocimientos de teoría de lenguajes y gramáticas formales para 
 
 En esta primer etapa fué crítico, como primera instancia, evaluar la complejidad que se requería de las producciones gramaticales para establecer un conjunto de reglas coherentes y fáciles de entender; éstas deben permitir generar sólamente contenido válido en formato RSS a la vez que evitar complejidades que podrían afectar su interpretación y, potencialmente, el desempeño del parser.
 
-![Jerarquía de lenguajes - Chomsky](https://i.imgur.com/i6bEltU.png "Jerarquía de lenguajes - Chomsky")
-
 Analizando el formato característico de los documentos RSS y teniendo en cuenta la jerarquía de lenguajes de Chomsky se optó por una gramática de tipo 2, libre de contexto, para la formulación de las producciones.
 
 ### 2. Desarrollo del lexer
 
-La segunda etapa consistirá en la conformación de un lexer que deberá ser capaz de identificar cada uno de los tokens dentro del documento, este conformará la primer etapa de detección de errores en el contenido, ya sean lexicos o sintácticos.
+La segunda etapa consistió en la conformación de un lexer que deberá ser capaz de identificar cada uno de los tokens dentro del documento, este conformará la primer etapa de detección de errores en el contenido, ya sean lexicos o sintácticos.
 
-En el desarrollo de esta estapa se hizo uso de Flex, una herramienta especializada en la generación de escáners léxicos. La forma en que desempeña su tarea es tomando una entrada, ya sea un archivo o entrada estándar, que es usada como "esqueleto" o descripción del escáner a generar.
+Para su elaboración se dependió de la herramienta Flex cuya función es la de generación de escáners léxicos a través de una descripción que funciona a modo de *esqueleto* para el escáner, la cual puede especificarse mediante un archivo con extensión `.l` o simplemente a través de entrada estándar.
 
-La descripción del escáner, en caso de ser un archivo, debe tener la extensión `.l` que deberemos especificar como entrada por medio del comando `$ flex nombre-archivo.l` lo que generará un archivo fuente con extensión `.c`, por defecto `lex.yy.c`, que deberá ser compilado.
+El paso siguiente a la elaboración de la descripción es la producción del código fuente del scanner ejecutando flex y pasándole como parámetro la descripción de los tokens y las reglas, ya sea en la forma de un archivo o mediante entrada estándar. Este paso generará un archivo, por defecto `lex.yy.c`, donde se definen las funciones de control del escáner como `yylex`, y tokens especiales de uso interno como `YYEOF` que es usado para parar la ejecución una vez se ha llegado al final del archivo de entrada cuando se ha declarado la opción `%option noyywrap`.
 
-Esta descripción estará compuesta de cuatro partes:
+#### Inconvenientes en la implementación del lenguaje
 
-![Secciones de la descripción del escáner](https://i.imgur.com/d0fBykE.png)
+Si bien la elaboración de la descripción del escáner resultó ser sencilla se encontró que el comportamiento del analizador léxico resultante produjo la imposibilidad de incluir en el alfabeto los símbolos `<` y `>` por situaciones como la siguiente:
 
-#### Sección de definiciones
+Considerando los tags de apertura y clausura de título mientras la apertura esté aislada el analizador los reconocerá sin problemas.
 
-Contiene declaraciones de definiciones nombradas para simplificar las especificaciones del escáner y declaraciones de condiciones de inicio.
+![](https://i.imgur.com/qqMwAvo.png)
 
-Una definición es una palabra que compienza con letra o guión bajo y que puede contener letras, números, guión bajo o medio y que está precedida por una expresión regular de la cual funciona como referencia.
+Pero en el momento en que haya un conflicto con otro posible token el comportamiento por defecto es tomar el que abarque la mayor cantidad de texto de la entrada:
 
-Ej:
+![](https://i.imgur.com/H32ji4u.png)
 
-```c
-DIGITO		[0-9]
+Imposibilitando la inclusión de los símbolos en el alfabeto.
+
+### 3. Desarrollo del parser
+
+El desarrollo del parser presentó varias similitudes con el proceso de conformación del lexer, nuevamente fue necesario confeccionar una descripción, en este caso de la gramática a la que el lenguaje debe adherirse, a través de un archivo con extensión `.y` o mediante entrada estándar.
+
+Para su confección se tuvieron que considerar aspectos como:
+- La inclusión de `lex.yy.c` para que el parser tenga acceso a la función `yylex` de control del analizador sintáctico para hacer peticiones de tokens.
+- La especificación de un parser LR generalizado debido a la ambigüedad de la gramática mediante la opcion `%glr-parser` que permite que actúe como un aceptor pushdown pudiendo hacer backtracking cuando una derivación es errónea. 
+- La inclusión de declaraciones `%dprec n` para establecer la precedencia entre formas sentenciales cuando las reglas eran ambiguas.
+- La inclusión de la función de control `main()` encargada de llamar a la función de control de parser `yyparse()` que, a su ves, hará las llamadas al lexer mediante la función `yylex()`.
+
+#### Inconvenientes en la elaboración de la gramática
+
+Una de las desventajas de trabajar con gramáticas de tipo 2 es que cada una de las permutaciones en todas las reglas debe ser considerada y ser expresada por separado. Esta fue la principal razón de que en la gramática no se haya podido considerar todas las producciones posibles de canal, item e imagen, ya que la cantidad de producciones eran $7!$, $4!$ y $5!$ respectivamente, requiriendo tiempo del que no se disponía.
+
+La alternativa por la que se optó es agrupar, en el caso del canal por ejemplo, los tags obligatorios y opcionales por separado y considerar todas las permutaciones ($3!$) en cada una de esas agrupaciones. Lo mismo se llevó acabo con la regla de item e imágen.
+
+Otro artilugio que se empleó para facilitar la elaboración de la gramática es la derivación de no terminales en el string vacío mediante la regla `%empty` ya que de esta forma fué posible obviar las producciones donde se realiza un cambio de no terminal o donde deriva en dos no terminales.
+
+![](https://i.imgur.com/Xjv7NlY.png)
+
+### Requerimientos de software
+
+Para compilar es necesario tener instalado:
+- `bison 3.8.2`
+- `flex 2.6.4`
+- `gcc 12.1.1`
+
+Opcionalmente:
+- `GNU make 4.3`
+
+#### Instrucciones de compilación
+
+Simplemente ejecutar `make` sobre el directorio raíz o:
+```shell=zsh
+flex src/lex.l
+bison -d src/parser.y
+gcc src/parser.tab.c -o bin/parserRSS.sh
 ```
-
-#### Sección de código C
-
-Nos permite definir macros, importar librerías, etc. que podrán ser útiles en la sección de reglas cuando queramos retornar algún valor o imprimir a salida estándar algún resultado.
-
-Todo lo que esté presente en esta sección será copiado literalmente al archivo `lex.yy.c`.
-
-#### Sección de reglas
-
-Esta sección contiene una serie de reglas que siguen el siguiente patrón:
-
-```
-patrón		acción
-```
-
-Donde:
-
-- `patrón`: puede ser una referencia a una expresión regular o una expresión en sí mismo y no puede estar indentado.
-- `acción`: debe comenzar en la misma línea que el patrón al que está relacionada y refiere a código a ejecutarse cuando se satisfaga el patrón en la entrada.
-
-#### Sección de código de usuario
-
-Esta sección opcional es copiada de forma literal al archivo `lex.yy.c` y es usada para rutinas de acompañamiento que llaman o son llamadas por el escáner.
-
-<div style="page-break-after: always"></div>
-
----
-
-Una vez generado el archivo `lex.yy.c` este debe ser compilado para obtener el ejecutable.
-
-Llegada esta etapa tendremos dos formas de utilizar el analizador léxico generado:
-- Pasarle la entrada mediante consola, es decir, en modo interactivo.
-- Definir un archivo de prueba y pasarlo como entrada al ejecutar el lexer.
-
-Independientemente de la forma que tome la entrada el escáner la analizará buscando cadenas de caracteres que coincidan con alguna de las reglas definidas.
-
-Una vez que una coincidencia es determinada el texto correspondiente a ella se hace disponible en el puntero de caracter global `yytext` y su longitud en el puntero entero `yyleng`. La acción correspondiente a la regla es ejecutada y el resto de la entrada es analizada en busca de la siguiente coincidencia.
-
-En el caso de que haya una coincidencia con dos reglas diferentes se tomará la que incluya la mayor cantidad de texto y, si ambas tienen la misma cantidad, se tomará la que haya estado definida primero en la descripción del escáner.
-
-Si no existen coincidencias entonces se ejecutará la regla por defecto: el siguiente caracter en la entrada es considerado como coincidente y copiado a salida estándar.
 
 ## Gramática
+
+Consideraciones:
+- Los no terminales estarán encerrados entre llaves.
 
 ### Tipos de datos y derivados
 
@@ -271,15 +276,81 @@ Si no existen coincidencias entonces se ejecutará la regla por defecto: el sigu
 
 ## Lexer
 
+La descripción del escáner estará compuesta de cuatro partes:
+
+![Secciones de la descripción del escáner](https://i.imgur.com/d0fBykE.png)
+
+#### Sección de definiciones
+
+Contiene declaraciones de definiciones nombradas para simplificar las especificaciones del escáner y declaraciones de condiciones de inicio.
+
+Una definición es una palabra que compienza con letra o guión bajo y que puede contener letras, números, guión bajo o medio y que está precedida por una expresión regular de la cual funciona como referencia.
+
+Ej:
+
+```c
+DIGITO		[0-9]
+```
+
+#### Sección de código C
+
+Nos permite definir macros, importar librerías, etc. que podrán ser útiles en la sección de reglas cuando queramos retornar algún valor o imprimir a salida estándar algún resultado.
+
+Todo lo que esté presente en esta sección será copiado literalmente al archivo `lex.yy.c`.
+
+#### Sección de reglas
+
+Esta sección contiene una serie de reglas que siguen el siguiente patrón:
+
+```
+patrón		acción
+```
+
+Donde:
+
+- `patrón`: puede ser una referencia a una expresión regular o una expresión en sí mismo y no puede estar indentado.
+- `acción`: debe comenzar en la misma línea que el patrón al que está relacionada y refiere a código a ejecutarse cuando se satisfaga el patrón en la entrada.
+
+#### Sección de código de usuario
+
+Esta sección opcional es copiada de forma literal al archivo `lex.yy.c` y es usada para rutinas de acompañamiento que llaman o son llamadas por el escáner.
+
 ### Tokens Utilizados
 
 Los siguientes tokens seran el resultado del análisis en la siguiente etapa.
  
-```
-<title> - </title> - <description> - </description> - <category> - </category> - <copyright> - </copyright> - <height> - </height> - <width> - </width> - <link> - </link> - <channel> - </channel> - <url> - </url> - <item> - </item> - <image> - </imagen> - </rss> - {version} - {xml} - {cxml} - {rss} - {defRSS} - {defXML} - {enlace} - {cadena de caracteres} - {espacio}
-```
+Token		|Descripción
+---			|---
+`A_TITULO`	|Tag de apertura de `titulo` (`<title>`).
+`C_TITULO`	|Tag de clausura de `titulo` (`</title>`).
+`A_DESC`	|Tag de apertura de `descripción` (`<description>`).
+`C_DESC`	|Tag de clausura de `descripción` (`</description>`).
+`A_CAT`		|Tag de apertura de `categoría` (`<category>`).
+`C_CAT`		|Tag de clausura de `categoría` (`</category>`).
+`A_LINK`	|Tag de apertura de `link` (`<link>`).
+`C_LINK`	|Tag de clausura de `link` (`</link>`).
+`A_URL`		|Tag de apertura de `url` (`<url>`).
+`C_URL`		|Tag de clausura de `url` (`</url>`).
+`A_DER`		|Tag de apertura de `derechos de autor` (`<copyright>`).
+`C_DER`		|Tag de clausura de `derechos de autor` (`</copyright>`).
+`A_ALT`		|Tag de apertura de `alto de imagen` (`<height>`).
+`C_ALT`		|Tag de clausura de `alto de imagen` (`</height>`).
+`A_ANCHO`	|Tag de apertura de `ancho de imagen` (`<width>`).
+`C_ANCHO`	|Tag de clausura de `ancho de imagen` (`</width>`).
+`A_CANAL`	|Tag de apertura de `canal` (`<channel>`).
+`C_CANAL`	|Tag de clausura de `canal` (`</channel>`).
+`A_ITEM`	|Tag de apertura de `item` (`<item>`).
+`C_ITEM`	|Tag de clausura de `item` (`</item>`).
+`A_IMG`		|Tag de apertura de `imagen` (`<image>`).
+`C_IMG`		|Tag de clausura de `imagen` (`</image>`).
+`D_RSS`		|Definición completa de RSS incluyendo versíon (`<rss version="2.0">`)
+`C_RSS`		|Tag de clausura (`</rss>`).
+`D_XML`		|Definición completa de XML incluyendo versión y codificación opcional (`<?xml version="2.0" encoding="UTF-8"?>`).
+`ENLACE`	|Coincidencia de la expresión regular encargada de detectar enlaces válidos.
+`NUM`		|Números naturales de cualquier longitud.
+`CAD`		|Caracteres alfabéticos sensibles a mayúsculas y acentos.
 
-Una vez detectado el token se devuelve junto con la porción de la entrada que corresponde con el token.
+Una vez detectado el token se devuelve junto con la porción de la entrada que corresponde con el token almacenada en la variable puntero `yytext`.
  
 ```
     Token: Texto de entrada
@@ -297,3 +368,108 @@ En el caso de algunos tokens se añadirá si corresponde a una apertura o una cl
     -Apertura de item: <item>
     -Clausura de item: </item>
 ```
+
+<div style="page-break-after: always"></div>
+
+## Parser
+
+
+
+## Funciones auxiliares
+
+- `eval_parse()`: toma la salida de la ejecución de `yyparse()` almacenada en la variable `salida` e imprime el mensaje correspondiente al resultado.
+
+## Obtención del intérprete
+
+- `lex.l`: archivo que contiene las expresiones regulares que definen los tokens y las reglas a ejecutar para cada uno.
+- `lex.yy.c`: archivo de código fuente del analizar léxico.
+- `parser.y`: archivo donde se define la gramática y las funciones de control del analizador sintáctico.
+- `parser.tab.c`: archivo de código fuente del analizador sintáctico.
+- `parser.tab.h`: archivo donde se enumeran los tokens junto con su código que será usado por el parser para reconocerlos.
+
+## Ejecución del intérprete
+
+
+
+## Ejemplos
+
+Ejemplo nro. 1:
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+	<channel>
+		<title>RSS de la catedra de Sintaxis y Semantica de Lenguajes</title>
+		<link>https://frre.cvg.utn.edu.ar/course/view.php?id=399</link>
+		<description>Sintaxis y Semantica de Lenguajes de la U.T.N.F.R.Resistencia.</description>
+		<item>
+			<title>Planificacion 2022</title>
+			<link>https://google.com</link>
+			<description>Planificacion de catedra, con cronograma de clases y evaluaciones</description>
+		</item>
+		<item>
+			<title>Guia de Trabajos practicos</title>
+			<link>https://frre.cvg.utn.ar</link>
+			<description>Guia de ejercicios propuestos a resolver en clase practica</description>
+		</item>
+			<item>
+			<title>Enunciado TPI</title>
+			<link>https://wl.edu</link>
+			<description>Trabajo practico integrador</description>
+		</item>
+	</channel>
+</rss>
+```
+
+Ejemplo nro. 2:
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+	<channel>
+		<title> RSS de la cátedra de Sintaxis y Semántica de Lenguajes </title>
+		<link>https://frre.cvg.utn.edu.ar/course/view.php?id=399</link>
+		<description>Sintaxis y Semántica de Lenguajes de la U.T.N. F.R.Resistencia. </description>
+		<category>Educacion</category>
+		<copyright>2022 UTN. FRRe. Licencia Creative Commons. Atribución-No Comercial-Compartir Igual(CCBY-NC-SA)</copyright>
+		<image>
+			<url>https://frre.cvg.utn.edu.ar/pluginfile.php/29750/theme_snap/coverimage/158439147course-image.gif</url>
+			<title>encabezado imagen SSL</title>
+			<link>https://frre.cvg.utn.edu.ar/course/view.php?id=399</link>
+			<height>250</height>
+			<width>120</width>
+		</image>
+		<item>
+			<title>Planificacion 2022</title>
+			<link>https://google.com</link>
+			<description>Planificacion de catedra, con cronograma de clases y evaluaciones</description>
+			<category>Planificacion</category>
+		</item>
+		<item>
+			<title>Guia de Trabajos practicos</title>
+			<link>https://frre.cvg.utn.edu.ar/mod/resource/view.php?id=43544&redirect=1</link>
+			<description>Guía de ejercicios propuestos a resolver en clase practica</description>
+			<category>Practica</category>
+		</item>
+		<item>
+			<title>Enunciado TPI</title>
+			<link>https://wl.ar</link>
+			<description>Enunciado del Trabajo práctico integrador</description>
+			<category>Teoria</category>
+		</item>
+	</channel>
+</rss>
+```
+
+Contraejemplo 1:
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+	<channel>
+		<title>RSS de la catedra de Sintaxis y Semantica de Lenguajes</title>
+		<link>https://frre.cvg.utn.edu.ar/course/view.php?id=399</link>
+		<description>Sintaxis y Semantica de Lenguajes de la U.T.N.F.R.Resistencia.</description>
+		<item>
+		</item>
+	</channel>
+</rss>
+```
+## Conclusiones
