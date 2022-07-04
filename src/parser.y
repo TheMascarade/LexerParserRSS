@@ -4,7 +4,10 @@
 %}
 %glr-parser // Hace que el parser generado actúe como un APD (con backtracking) y pueda procesar gramáticas ambiguas.
 %define parse.error verbose // Mas informacion de errores.
-%token A_TITULO C_TITULO
+%union{
+	char car[1000];
+}
+%token <car> A_TITULO C_TITULO
 	A_DESC C_DESC
 	A_CAT C_CAT
 	A_DER C_DER
@@ -19,6 +22,7 @@
 	D_XML
 	CAD ENLACE NUM
 %start documento // no terminal distinguido (sigma).
+%type <car> canal_obligatorio item_obligatorio titulo descripcion link 
 %%
 	documento:
 		defXML defRSS canal C_RSS
@@ -39,9 +43,9 @@
 		| A_CANAL items canal_opcional canal_obligatorio C_CANAL %dprec 44
 	;
 	canal_obligatorio:
-		titulo link descripcion %dprec 20		{sprintf($$, "<h1> %s </h1>", $1);}
-		| titulo descripcion link %dprec 19		{sprintf($$, "<p> %s </p>", $2);}
-		| link descripcion titulo %dprec 18		{sprintf($$, "<a> %s </a>", $1);}
+		titulo link descripcion %dprec 20		{sprintf("<h1> %s </h1>\n<a>%s</a>\n<p>%s</p>", $1,$2,$3);}
+		| titulo descripcion link %dprec 19		{sprintf("<p> %s </p>", $2);}
+		| link descripcion titulo %dprec 18		{sprintf("<a> %s </a>", $1);}
 		| link titulo descripcion %dprec 17
 		| descripcion link titulo %dprec 16
 		| descripcion titulo link %dprec 15
@@ -56,7 +60,7 @@
 	;
 	items:
 		%empty %dprec 28
-		| item %dprec 8			{sprintf($$, "<h3>%s</h3>", $1);}
+		| item %dprec 8
 		| item items %dprec 7
 	;
 	item:
@@ -64,12 +68,12 @@
 		| A_ITEM item_opcional item_obligatorio C_ITEM %dprec 29
 	;
 	item_obligatorio:
-		titulo link descripcion %dprec 35
+		titulo link descripcion %dprec 35 {sprintf("<H3>%s</H3>\n<p>%s</p>",$1,$3);}
 		| titulo descripcion link %dprec 34
 		| link descripcion titulo %dprec 33
 		| link titulo descripcion %dprec 32
 		| descripcion link titulo %dprec 31
-		| descripcion titulo link %dprec 30			{sprintf($$, "<p>%s</p>", $1);}
+		| descripcion titulo link %dprec 30	
 	;
 	item_opcional:
 		categoria
