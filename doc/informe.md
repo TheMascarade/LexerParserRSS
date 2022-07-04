@@ -373,8 +373,39 @@ En el caso de algunos tokens se añadirá si corresponde a una apertura o una cl
 
 ## Parser
 
+El archivo `.y` usado para la generación del código fuente del parser tiene 4 secciones:
 
+```
+%{
+	Prólogo
+%}
 
+Declaraciones de Bison
+
+%%
+	Reglas gramaticales
+%%
+
+Epílogo
+```
+
+### Prólogo
+
+En esta sección se definen tipos semánticos y variables usadas en las acciones. También nos permite usar comandos de preprocesador y definición de macros.
+
+### Declaraciones de Bison
+
+Aquí se deben declarar los terminales que el analizador sintáctico debe esperar del lexer y que serán usados para la construcción de los no terminales y la conformación de las producciones gramaticales.
+
+También es posible definir el tipo semántico de los símbolos.
+
+### Reglas gramaticales
+
+Las reglas usadas para construir los símbolos no terminales y que serán usadas para evaluar la entrada.
+
+### Epílogo
+
+En esta sección se encuentra el código de usuario como definiciones de funciones declaradas en el prólogo.
 ## Funciones auxiliares
 
 - `eval_parse()`: toma la salida de la ejecución de `yyparse()` almacenada en la variable `salida` e imprime el mensaje correspondiente al resultado.
@@ -473,3 +504,13 @@ Contraejemplo 1:
 </rss>
 ```
 ## Conclusiones
+
+Este trabajo nos ha ayudado a desarrollar un mejor entendimiento sobre aceptores en la práctica como también sobre las consideraciones que se deben tomar en cuenta a la hora de implementarlos en un escenario real con usos reales.
+
+Nos brindó la oportunidad de desarrollar nuestros conocimientos en el lenguaje `C` y la forma en que un proyecto debe ser estructurado al mismo tiempo que se deben considerar múltiples partes individuales y sus interacciones.
+
+## Referencias
+- [Manual de bison](https://www.gnu.org/software/bison/manual/bison.pdf).
+- [Manual de Flex](https://westes.github.io/flex/manual/index.html#Top).
+- [Flex & Bison - John Levine](https://www.oreilly.com/library/view/flex-bison/9780596805418/).
+- [Tester de expresiones regulares](https://regexr.com/).
