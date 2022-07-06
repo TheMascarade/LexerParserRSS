@@ -1,10 +1,15 @@
 %{
 	#include <stdio.h>
 	#include "lex.yy.c"
+	FILE* arch_salida;
 %}
 %glr-parser // Hace que el parser generado actúe como un APD (con backtracking) y pueda procesar gramáticas ambiguas.
 %define parse.error detailed // Mas informacion de errores.
-%token A_TITULO C_TITULO
+%union
+{
+	char* string;
+}
+%token <string>A_TITULO C_TITULO
 	A_DESC C_DESC
 	A_CAT C_CAT
 	A_DER C_DER
@@ -19,6 +24,7 @@
 	D_XML
 	CAD ENLACE NUM
 %start documento // no terminal distinguido (sigma).
+%type <string> titulo descripcion link 
 %%
 	documento:
 		defXML defRSS canal C_RSS
@@ -39,12 +45,24 @@
 		| A_CANAL items canal_opcional canal_obligatorio C_CANAL %dprec 44
 	;
 	canal_obligatorio:
-		titulo link descripcion %dprec 20
-		| titulo descripcion link %dprec 19
-		| link descripcion titulo %dprec 18
-		| link titulo descripcion %dprec 17
-		| descripcion link titulo %dprec 16
-		| descripcion titulo link %dprec 15
+		titulo link descripcion %dprec 20 {
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$1,$3,$2);
+		}
+		| titulo descripcion link %dprec 19{
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$1,$2,$3);
+		}
+		| link descripcion titulo %dprec 18{
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$3,$2,$1);
+		}
+		| link titulo descripcion %dprec 17{
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$2,$3,$1);
+		}
+		| descripcion link titulo %dprec 16{
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$3,$1,$2);
+		}
+		| descripcion titulo link %dprec 15{
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$2,$1,$3);
+		}
 	;
 	canal_opcional:
 		categoria derechos imagen %dprec 26
@@ -64,12 +82,24 @@
 		| A_ITEM item_opcional item_obligatorio C_ITEM %dprec 29
 	;
 	item_obligatorio:
-		titulo link descripcion %dprec 35
-		| titulo descripcion link %dprec 34
-		| link descripcion titulo %dprec 33
-		| link titulo descripcion %dprec 32
-		| descripcion link titulo %dprec 31
-		| descripcion titulo link %dprec 30
+		titulo link descripcion %dprec 35{
+			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",$1,$3);
+		}
+		| titulo descripcion link %dprec 34{
+			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",$1,$2);
+		}
+		| link descripcion titulo %dprec 33{
+			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",$3,$2);
+		}
+		| link titulo descripcion %dprec 32{
+			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",$2,$3);
+		}
+		| descripcion link titulo %dprec 31{
+			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",$3,$1);
+		}
+		| descripcion titulo link %dprec 30{
+			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",$2,$1);
+		}
 	;
 	item_opcional:
 		categoria
@@ -91,13 +121,19 @@
 		| ancho alto %dprec 42
 	;
 	titulo:
-		A_TITULO CAD C_TITULO
+		A_TITULO CAD C_TITULO {
+			$$=$2;
+		}
 	;
 	link:
-		A_LINK ENLACE C_LINK
+		A_LINK ENLACE C_LINK{
+			$$=$2;
+		}
 	;
 	descripcion:
-		A_DESC CAD C_DESC
+		A_DESC CAD C_DESC{
+			$$=$2;
+		}
 	;
 	derechos:
 		%empty %dprec 12
@@ -150,7 +186,11 @@ int main(int argc, char **argv){
 		}
 		else
 		{
+			arch_salida=fopen("salida.html","w+");
+			fprintf(arch_salida, "%s","<!DOCTYPE html>\n""<head>\n""<title>Salida del Parser</title>\n""</head>\n""<body>\n");
 			salida=yyparse();
+			fprintf(arch_salida, "%s","</body>\n""</html>");
+			fclose(arch_salida);
 		}
 	}
 	else
