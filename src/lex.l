@@ -67,7 +67,7 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 {defXML}			    {printf("-Definicion XML: %s\n", yytext);}
 {enlace}			    {printf("-Enlace: %s\n", yytext);}
 {numero}                {printf("-Numero: %s\n",yytext);}
-{cadena}   {printf("-Cadena de caracteres: %s\n", yytext);}
+{cadena}                {printf("-Cadena de caracteres: %s\n", yytext);}
 {espacio}               {;}
 "\n"                    {;}
 "\t"                    {;}
