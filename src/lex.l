@@ -63,9 +63,15 @@ defRSS				({rss}{espacio}*{version}{espacio}*{may})
 {defRSS}		        {return(D_RSS);}
 {c_rss}					{return(C_RSS);}
 {defXML}			    {return(D_XML);}
-{enlace}			    {return(ENLACE);}
+{enlace}			    {
+							yylval.string=strdup(yytext);
+							return(ENLACE);
+						}
 {numero}				{return(NUM);}
-{cadena}			  	{return(CAD);}
+{cadena}			  	{
+							yylval.string= strdup(yytext);
+							return(CAD);
+						}
 "\n"                    {;}
 "\t"                    {;}
 .					    {;}
