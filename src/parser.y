@@ -165,10 +165,11 @@ int eval_parse(int salida)
 	switch (salida)
 	{
 		case 0:
-			printf("Compilado exitoso\n");
+			printf("Compilado exitoso!\n");
 			break;
 		case 1:
 			printf("l: %i\n",yylineno);
+			remove("salida.html"); // eliminar el archivo de salida.
 			break;
 		case 2:
 			printf("ERROR, falta de memoria");
