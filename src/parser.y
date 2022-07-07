@@ -155,6 +155,8 @@
 		| A_CAT CAD C_CAT %dprec 1
 	;
 %%
+int salida;
+
 yyerror(char *msg)
 {
 	printf("%s\n",msg);
@@ -175,9 +177,15 @@ int eval_parse(int salida)
 			printf("ERROR, falta de memoria");
 			break;
 	}
-}	
+}
+grabar_salida()
+{
+	arch_salida=fopen("salida.html","w+");
+	fprintf(arch_salida, "%s","<!DOCTYPE html>\n""<head>\n""<title>Salida del Parser</title>\n""</head>\n""<body>\n");
+	salida=yyparse();
+	fprintf(arch_salida, "%s","</body>\n""</html>");
+}
 int main(int argc, char **argv){
-	int salida;
 	if(argc==2)
 	{
 		yyin=fopen(argv[1],"rt");
@@ -187,20 +195,17 @@ int main(int argc, char **argv){
 		}
 		else
 		{
-			arch_salida=fopen("salida.html","w+");
-			fprintf(arch_salida, "%s","<!DOCTYPE html>\n""<head>\n""<title>Salida del Parser</title>\n""</head>\n""<body>\n");
-			salida=yyparse();
-			fprintf(arch_salida, "%s","</body>\n""</html>");
-			fclose(arch_salida);
+			grabar_salida();
+			fclose(yyin);
 		}
 	}
 	else
 	{
 		printf("Ingrese por teclado\n");
 		yyin=stdin;
-		salida=yyparse();
+		grabar_salida();
 	}
+	fclose(arch_salida);
 	eval_parse(salida);
-	fclose(yyin);
 	return 0;
 }
