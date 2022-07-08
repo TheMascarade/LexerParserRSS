@@ -46,22 +46,22 @@
 	;
 	canal_obligatorio:
 		titulo link descripcion %dprec 20 {
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$1,$3,$2);
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",$1,$3,$2,$2);
 		}
 		| titulo descripcion link %dprec 19{
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$1,$2,$3);
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",$1,$2,$3,$3);
 		}
 		| link descripcion titulo %dprec 18{
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$3,$2,$1);
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",$3,$2,$1,$1);
 		}
 		| link titulo descripcion %dprec 17{
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$2,$3,$1);
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",$2,$3,$1,$1);
 		}
 		| descripcion link titulo %dprec 16{
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$3,$1,$2);
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",$3,$1,$2,$2);
 		}
 		| descripcion titulo link %dprec 15{
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",$2,$1,$3);
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",$2,$1,$3,$3);
 		}
 	;
 	canal_opcional:
