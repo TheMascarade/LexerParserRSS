@@ -54,13 +54,13 @@
 
 
 /* First part of user prologue.  */
-#line 1 "parser.y"
+#line 1 "src/parser.y"
 
 	#include <stdio.h>
 	#include "lex.yy.c"
 	FILE* arch_salida;
 
-#line 64 "parser.tab.c"
+#line 64 "src/parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -1130,127 +1130,127 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
   switch (yyn)
     {
   case 12: /* canal_obligatorio: titulo link descripcion  */
-#line 48 "parser.y"
+#line 48 "src/parser.y"
                                                   {
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string));
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string));
 		}
-#line 1138 "parser.tab.c"
+#line 1138 "src/parser.tab.c"
     break;
 
   case 13: /* canal_obligatorio: titulo descripcion link  */
-#line 51 "parser.y"
+#line 51 "src/parser.y"
                                                    {
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string));
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string));
 		}
-#line 1146 "parser.tab.c"
+#line 1146 "src/parser.tab.c"
     break;
 
   case 14: /* canal_obligatorio: link descripcion titulo  */
-#line 54 "parser.y"
+#line 54 "src/parser.y"
                                                    {
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string));
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string));
 		}
-#line 1154 "parser.tab.c"
+#line 1154 "src/parser.tab.c"
     break;
 
   case 15: /* canal_obligatorio: link titulo descripcion  */
-#line 57 "parser.y"
+#line 57 "src/parser.y"
                                                    {
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string));
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string));
 		}
-#line 1162 "parser.tab.c"
+#line 1162 "src/parser.tab.c"
     break;
 
   case 16: /* canal_obligatorio: descripcion link titulo  */
-#line 60 "parser.y"
+#line 60 "src/parser.y"
                                                    {
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string));
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string));
 		}
-#line 1170 "parser.tab.c"
+#line 1170 "src/parser.tab.c"
     break;
 
   case 17: /* canal_obligatorio: descripcion titulo link  */
-#line 63 "parser.y"
+#line 63 "src/parser.y"
                                                    {
-			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a>%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string));
+			fprintf(arch_salida,"<H1>%s</H1>\n<p>%s</p>\n<a href=\"%s\">%s</a>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string));
 		}
-#line 1178 "parser.tab.c"
+#line 1178 "src/parser.tab.c"
     break;
 
   case 29: /* item_obligatorio: titulo link descripcion  */
-#line 85 "parser.y"
+#line 85 "src/parser.y"
                                                  {
 			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string));
 		}
-#line 1186 "parser.tab.c"
+#line 1186 "src/parser.tab.c"
     break;
 
   case 30: /* item_obligatorio: titulo descripcion link  */
-#line 88 "parser.y"
+#line 88 "src/parser.y"
                                                    {
 			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string));
 		}
-#line 1194 "parser.tab.c"
+#line 1194 "src/parser.tab.c"
     break;
 
   case 31: /* item_obligatorio: link descripcion titulo  */
-#line 91 "parser.y"
+#line 91 "src/parser.y"
                                                    {
 			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string));
 		}
-#line 1202 "parser.tab.c"
+#line 1202 "src/parser.tab.c"
     break;
 
   case 32: /* item_obligatorio: link titulo descripcion  */
-#line 94 "parser.y"
+#line 94 "src/parser.y"
                                                    {
 			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string));
 		}
-#line 1210 "parser.tab.c"
+#line 1210 "src/parser.tab.c"
     break;
 
   case 33: /* item_obligatorio: descripcion link titulo  */
-#line 97 "parser.y"
+#line 97 "src/parser.y"
                                                    {
 			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string));
 		}
-#line 1218 "parser.tab.c"
+#line 1218 "src/parser.tab.c"
     break;
 
   case 34: /* item_obligatorio: descripcion titulo link  */
-#line 100 "parser.y"
+#line 100 "src/parser.y"
                                                    {
 			fprintf(arch_salida,"<H3>%s</H3>\n<p>%s</p>\n",(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string),(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.string));
 		}
-#line 1226 "parser.tab.c"
+#line 1226 "src/parser.tab.c"
     break;
 
   case 46: /* titulo: A_TITULO CAD C_TITULO  */
-#line 124 "parser.y"
+#line 124 "src/parser.y"
                                       {
 			((*yyvalp).string)=(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string);
 		}
-#line 1234 "parser.tab.c"
+#line 1234 "src/parser.tab.c"
     break;
 
   case 47: /* link: A_LINK ENLACE C_LINK  */
-#line 129 "parser.y"
+#line 129 "src/parser.y"
                                     {
 			((*yyvalp).string)=(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string);
 		}
-#line 1242 "parser.tab.c"
+#line 1242 "src/parser.tab.c"
     break;
 
   case 48: /* descripcion: A_DESC CAD C_DESC  */
-#line 134 "parser.y"
+#line 134 "src/parser.y"
                                  {
 			((*yyvalp).string)=(YY_CAST (yyGLRStackItem const *, yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.string);
 		}
-#line 1250 "parser.tab.c"
+#line 1250 "src/parser.tab.c"
     break;
 
 
-#line 1254 "parser.tab.c"
+#line 1254 "src/parser.tab.c"
 
       default: break;
     }
@@ -2946,7 +2946,7 @@ yypdumpstack (yyGLRStack* yystackp)
 
 
 
-#line 157 "parser.y"
+#line 157 "src/parser.y"
 
 int salida;
 
@@ -2977,7 +2977,6 @@ grabar_salida()
 	fprintf(arch_salida, "%s","<!DOCTYPE html>\n""<head>\n""<title>Salida del Parser</title>\n""</head>\n""<body>\n");
 	salida=yyparse();
 	fprintf(arch_salida, "%s","</body>\n""</html>");
-	fclose(yyin);
 }
 int main(int argc, char **argv){
 	if(argc==2)
@@ -2990,6 +2989,7 @@ int main(int argc, char **argv){
 		else
 		{
 			grabar_salida();
+			fclose(yyin);
 		}
 	}
 	else

@@ -1,5 +1,6 @@
+#line 1 "src/lex.yy.c"
 
-#line 2 "lex.yy.c"
+#line 3 "src/lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -678,12 +679,12 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "lex.l"
-#line 2 "lex.l"
+#line 1 "src/lex.l"
+#line 2 "src/lex.l"
 #include <stdio.h>
 #include "parser.tab.h"
-#line 685 "lex.yy.c"
-#line 686 "lex.yy.c"
+#line 686 "src/lex.yy.c"
+#line 687 "src/lex.yy.c"
 
 #define INITIAL 0
 
@@ -900,9 +901,9 @@ YY_DECL
 		}
 
 	{
-#line 40 "lex.l"
+#line 40 "src/lex.l"
 
-#line 905 "lex.yy.c"
+#line 906 "src/lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -971,132 +972,132 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 41 "lex.l"
+#line 41 "src/lex.l"
 {return(A_TITULO);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 42 "lex.l"
+#line 42 "src/lex.l"
 {return(C_TITULO);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 43 "lex.l"
+#line 43 "src/lex.l"
 {return(A_DESC);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 44 "lex.l"
+#line 44 "src/lex.l"
 {return(C_DESC);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 45 "lex.l"
+#line 45 "src/lex.l"
 {return(A_CAT);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 46 "lex.l"
+#line 46 "src/lex.l"
 {return(C_CAT);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 47 "lex.l"
+#line 47 "src/lex.l"
 {return(A_DER);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 48 "lex.l"
+#line 48 "src/lex.l"
 {return(C_DER);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 49 "lex.l"
+#line 49 "src/lex.l"
 {return(A_ALT);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 50 "lex.l"
+#line 50 "src/lex.l"
 {return(C_ALT);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 51 "lex.l"
+#line 51 "src/lex.l"
 {return(A_ANCHO);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 52 "lex.l"
+#line 52 "src/lex.l"
 {return(C_ANCHO);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 53 "lex.l"
+#line 53 "src/lex.l"
 {return(A_LINK);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 54 "lex.l"
+#line 54 "src/lex.l"
 {return(C_LINK);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 55 "lex.l"
+#line 55 "src/lex.l"
 {return(A_URL);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 56 "lex.l"
+#line 56 "src/lex.l"
 {return(C_URL);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 57 "lex.l"
+#line 57 "src/lex.l"
 {return(A_CANAL);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 58 "lex.l"
+#line 58 "src/lex.l"
 {return(C_CANAL);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 59 "lex.l"
+#line 59 "src/lex.l"
 {return(A_ITEM);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 60 "lex.l"
+#line 60 "src/lex.l"
 {return(C_ITEM);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 61 "lex.l"
+#line 61 "src/lex.l"
 {return(A_IMG);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 62 "lex.l"
+#line 62 "src/lex.l"
 {return(C_IMG);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 63 "lex.l"
+#line 63 "src/lex.l"
 {return(D_RSS);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 64 "lex.l"
+#line 64 "src/lex.l"
 {return(C_RSS);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 65 "lex.l"
+#line 65 "src/lex.l"
 {return(D_XML);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 66 "lex.l"
+#line 66 "src/lex.l"
 {
 							yylval.string=strdup(yytext);
 							return(ENLACE);
@@ -1104,12 +1105,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 70 "lex.l"
+#line 70 "src/lex.l"
 {return(NUM);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 71 "lex.l"
+#line 71 "src/lex.l"
 {
 							yylval.string= strdup(yytext);
 							return(CAD);
@@ -1118,25 +1119,25 @@ YY_RULE_SETUP
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 75 "lex.l"
+#line 75 "src/lex.l"
 {;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 76 "lex.l"
+#line 76 "src/lex.l"
 {;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 77 "lex.l"
+#line 77 "src/lex.l"
 {;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 78 "lex.l"
+#line 78 "src/lex.l"
 ECHO;
 	YY_BREAK
-#line 1139 "lex.yy.c"
+#line 1140 "src/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2153,5 +2154,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 78 "lex.l"
+#line 78 "src/lex.l"
 
